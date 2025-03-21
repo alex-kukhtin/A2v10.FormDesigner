@@ -20,13 +20,15 @@
 			Form: {
 				Type: 'Dialog',
 				Props: {
-					Title: 'Dialog Title',	
+					Title: 'Dialog Title',
 				},
 				Items: [
 					{
+						Id: 1,
 						Is: 'Grid',
 						Props: {
-							Columns: 2,
+							Columns: 3,
+							Rows: 3,
 							ColumnWidth: 140
 						},
 						Items: [
@@ -35,7 +37,7 @@
 								Props: {
 									Data: 'Contract.Name',
 									'Grid.Row': 1,
-									'Grid.Column': 1,
+									'Grid.Col': 1,
 								}
 							},
 							{
@@ -43,8 +45,44 @@
 								Props: {
 									Data: 'Contract.Agent',
 									'Grid.Row': 2,
-									'Grid.Column': 1,
+									'Grid.Col': 3,
 								}
+							}
+						]
+					},
+					{
+						Is: 'HLine'
+					},
+					{
+						Is: 'Grid',
+						Id: 2,
+						Props: {
+							Columns: 4,
+							Rows: 2,
+							ColumnWidth: 150
+						},
+						Items: [
+							{
+								Is: 'Selector',
+								Props: {
+									Data: 'Contract.Contact',
+									'Grid.Row': 1,
+									'Grid.Col': 2,
+								}
+							},
+							{
+								Is: 'Grid',
+								Id : 3,
+								Props: {
+									'Grid.Row': 2,
+									'Grid.Col': 3,
+									Columns: 2,
+									Rows: 2,
+									ColumnWidth: 70
+								},
+								Items: [
+
+								]
 							}
 						]
 					}

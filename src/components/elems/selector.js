@@ -2,7 +2,7 @@
 import control from './control.js';
 
 const selectorTemplate = `
-<div class="fd-selector" @click.stop.self=select>
+<div class="fd-selector">
 SELECTOR
 {{item}}
 </div>

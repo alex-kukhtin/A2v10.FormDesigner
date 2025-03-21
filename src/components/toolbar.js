@@ -2,6 +2,7 @@
 const toolbarTemplate = `
 <div class="fd-toolbar">
 	TOOLBAR
+	<button>Delete</button>
 </div>
 `;
 

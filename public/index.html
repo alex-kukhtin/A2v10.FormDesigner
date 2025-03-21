@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head lang='en'>
+	<meta charset='utf-8'>
+	<meta name='viewport' content='width=device-width'>
+	<title>A2v10 Form Designer</title>
+
+	<link rel="stylesheet" href="assets/main.css">
+	<link rel="stylesheet" href="assets/formdesigner.css">
+</head>
+<body>
+    <div id="app">
+		<fd-container :form="Form"></fd-container>
+    </div>
+
+    <script src='vendor/vue.js'></script>
+    <script src='assets/formdesigner.js'></script>
+    <script>
+		const data = {
+			Form: {
+				Type: 'Dialog',
+				Props: {
+					Title: 'Dialog Title',	
+				},
+				Items: [
+					{
+						Is: 'Grid',
+						Props: {
+							Columns: 2,
+							ColumnWidth: 140
+						},
+						Items: [
+							{
+								Is: 'TextBox',
+								Props: {
+									Data: 'Contract.Name',
+									'Grid.Row': 1,
+									'Grid.Column': 1,
+								}
+							},
+							{
+								Is: 'Selector',
+								Props: {
+									Data: 'Contract.Agent',
+									'Grid.Row': 2,
+									'Grid.Column': 1,
+								}
+							}
+						]
+					}
+				]
+			},
+			Components: [
+				{
+
+				}
+			],
+			Fields: [
+				{
+
+				}
+			]
+		};
+
+		new Vue({
+			el: '#app',
+			data: data,
+		});
+    </script>
+</body>
+</html>

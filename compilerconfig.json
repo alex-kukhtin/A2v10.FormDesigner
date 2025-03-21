@@ -1,0 +1,10 @@
+[
+    {
+        "outputFile": "public/assets/main.css",
+        "inputFile": "src/less/main.less"
+    },
+    {
+        "outputFile": "public/assets/formdesigner.css",
+        "inputFile": "src/less/formdesigner.less"
+    }
+]

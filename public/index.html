@@ -7,46 +7,119 @@
 
 	<link rel="stylesheet" href="assets/main.css">
 	<link rel="stylesheet" href="assets/formdesigner.css">
+
+	<link rel="stylesheet" href="vendor/tabbed.min.css" />
+
+	<style>
+		:root {
+			--bgPrimary: #fbfbfb;
+			--bgControl: #fff;
+			--bgMenu: #fff;
+			--bgSheet: #fff;
+			--text: #000;
+			--fontSize: 14px;
+			--themeLight: #2d8ecf;
+			--neutralBkDark: #e5e4e3;
+			--neutralBk: #f3f2f1;
+			--link: #208cf8;
+			--linkDark: #0669cb;
+			--hoverBk: #fdf4bf;
+			--activeBk: #cde6f7;
+			--hoverBkLight: #fdf4bf;
+			--activeBkLight: #cde6f7;
+			--dialogHeaderBkColor: #fff29d;
+			--dialogHeaderBkColorDark: #ede193;
+			--dialog-footer-bg: #f5f5f5;
+			/*neutral100*/
+			--table-header-bg: #f5f5f5;
+			/*neutral100*/
+			--table-header-bg-hover: #ececec;
+			--table-header-sort: #eeeeee3f;
+			--neutral900: #212121;
+			--neutral800: #5c5c5c;
+			--neutral700: #888888;
+			--neutral500: #9e9e9e;
+			--neutral400: #bdbdbd;
+			--neutral300: #e0e0e0;
+			--neutral100: #f5f5f5;
+			--neutral50: #fafafa;
+			--icon-color: #5c5c5c;
+			/*neutral800*/
+			--menu-hover: #eeeeee;
+			--text-light: #5c5c5c;
+			/*neutral800*/
+			--text-header: #00000090;
+			--text-label: #000000d0;
+			--nav900: #212121;
+			/*neutral900*/
+			--nav800: #5c5c5c;
+			/*neutral800*/
+			--nav700: #888888;
+			/*neutral700*/
+			--nav300: #e0e0e0;
+			/*neutral300*/
+			--nav100: #f0f0f0;
+			--nav-bg: #757575;
+			--nav-icon: white;
+			--nav-text: #ffffffd0;
+			--nav-line: #e0e0e0;
+			/* neutral300 */
+			--nav-accent: #ffda00;
+			--mdi-menu-bg: #5c5c5c;
+			/*neutral800*/
+			--mdi-menu-text: white;
+			--mdi-menu-hover: #212121;
+			/*neutral900*/
+			--mdi-menu-light: #e0e0e0;
+			/*neutral300*/
+			--mdi-menu-line: #e0e0e0;
+			/*neutral300*/
+			--default-base: #e0e0e0 /*neutral300*/;
+			--primary-base: #3470b4;
+			--warning-base: #ffb74d;
+			--danger-base: #da533f;
+			--success-base: #5db750;
+			--info-base: #60bbe5;
+		}
+	</style>
 </head>
 <body>
-    <div id="app">
-		<fd-container :form="Form"></fd-container>
-    </div>
+	<div id="app">
+		<fd-container :form="Form" :fields="Fields" :components="Components"></fd-container>
+	</div>
 
-    <script src='vendor/vue.js'></script>
-    <script src='assets/formdesigner.js'></script>
-    <script>
+	<script src='vendor/vue.js'></script>
+	<script src='assets/formdesigner.js'></script>
+	<script>
 		const data = {
 			Form: {
-				Type: 'Dialog',
-				Props: {
-					Title: 'Dialog Title',
-				},
+				Is: 'Dialog',
+				Title: 'Dialog Title',
+				Width: '80rem',
 				Items: [
 					{
 						Id: 1,
 						Is: 'Grid',
-						Props: {
-							Columns: 3,
-							Rows: 3,
-							ColumnWidth: 140
-						},
+						Columns: 'auto auto auto 1fr',
+						Rows: 'auto auto auto',
 						Items: [
 							{
 								Is: 'TextBox',
-								Props: {
-									Data: 'Contract.Name',
-									'Grid.Row': 1,
-									'Grid.Col': 1,
-								}
+								row: 1,
+								col: 1,
+								rowSpan: 1,
+								colSpan: 2,
+								Label: '@[Name]',
+								Data: 'Contract.Name',
 							},
 							{
 								Is: 'Selector',
-								Props: {
-									Data: 'Contract.Agent',
-									'Grid.Row': 2,
-									'Grid.Col': 3,
-								}
+								row: 2,
+								col: 3,
+								rowSpan: 1,
+								colSpan: 1,
+								Label: '@[Agent]',
+								Data: 'Contract.Agent',
 							}
 						]
 					},
@@ -56,32 +129,91 @@
 					{
 						Is: 'Grid',
 						Id: 2,
-						Props: {
-							Columns: 4,
-							Rows: 2,
-							ColumnWidth: 150
-						},
+						Columns: 'auto auto auto auto',
+						Rows: 'auto auto',
 						Items: [
 							{
 								Is: 'Selector',
-								Props: {
-									Data: 'Contract.Contact',
-									'Grid.Row': 1,
-									'Grid.Col': 2,
-								}
+								row: 1,
+								col: 2,
+								Label: '@[Contact]',
+								Data: 'Contract.Contact',
 							},
 							{
 								Is: 'Grid',
-								Id : 3,
-								Props: {
-									'Grid.Row': 2,
-									'Grid.Col': 3,
-									Columns: 2,
-									Rows: 2,
-									ColumnWidth: 70
-								},
+								Id: 3,
+								row: 2,
+								col: 3,
+								Columns: 'auto auto',
+								Rows: 'auto',
 								Items: [
 
+								]
+							}
+						]
+					},
+					{
+						Is: 'HLine'
+					},
+					{
+						Is: 'Grid',
+						Id: 4,
+						Rows: 'auto 1fr auto',
+						Columns: '1fr',
+						Items: [
+							{
+								Is: 'DataGrid',
+								Source: 'Contracts',
+								row: 2,
+								col: 1,
+								Items: [
+									{
+										Is: 'DataGridColumn',
+										Label: '@[Name]',
+										Data: 'Name'
+									},
+									{
+										Is: 'DataGridColumn',
+										Label: '@[Agent]',
+										Data: 'Agent.Name'
+									},
+									{
+										Is: 'DataGridColumn',
+										Label: '@[Company]',
+										Data: 'Company.Name'
+									},
+									{
+										Is: 'DataGridColumn',
+										Label: '@[Memo]',
+										Data: 'Memo'
+									}
+								]
+							},
+							{
+								Is: 'Pager',
+								row: 3,
+								col: 1
+							},
+							{
+								Is: 'Toolbar',
+								row: 1,
+								col: 1,
+								Items: [
+									{
+										Is: 'Button',
+										Label: '@[New]',
+										Command: 'New'
+									},
+									{
+										Is: 'Button',
+										Label: '@[Edit]',
+										Command: 'Edit'
+									},
+									{
+										Is: 'Button',
+										Label: '@[Delete]',
+										Command: 'Delete'
+									}
 								]
 							}
 						]
@@ -90,12 +222,34 @@
 			},
 			Components: [
 				{
-
+					Is: 'Grid',
+					Rows: 'auto auto',
+					Columns: 'auto auto',
+					row: 0,
+					col: 0,
+					Items: []
+				},
+				{
+					Is: "CLabel",
+					Label: "Label",
+					row: 0,
+					col: 0
 				}
 			],
 			Fields: [
 				{
-
+					Is: 'TextBox',
+					row: 0,
+					col: 0,
+					Label: '@[Memo]',
+					Data: 'Contract.Memo',
+				},
+				{
+					Is: 'Selector',
+					row: 0,
+					col: 0,
+					Label: '@[Company]',
+					Data: 'Contract.Company',
 				}
 			]
 		};
@@ -104,6 +258,6 @@
 			el: '#app',
 			data: data,
 		});
-    </script>
+	</script>
 </body>
 </html>

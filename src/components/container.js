@@ -7,13 +7,21 @@ import lineElem from './elems/line';
 const containerTemplate = `
 <div class="fd-container" @click.stop.self=clickBody>
 	<fd-toolbar></fd-toolbar>
-	<fd-taskpad :item=selectedItem></fd-taskpad>
-	<div class=fd-body  @click.stop.self=clickBody>
-		<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
-			:item="itm" :cont=cont></component>
+	<fd-taskpad :item=selectedItem :fields=fields :cont=cont :components=components />
+	<div class="fd-main">
+		<div class=fd-body  @click.stop.self=clickBody>
+			<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
+				:item="itm" :cont=cont />
+		</div>
+		<div class="fd-page-taskpad">
+		</div>
 	</div>
 </div>
 `;
+
+function isContainer(isElem) {
+	return isElem === 'Grid';
+}
 
 Vue.component('Grid', gridElem);
 
@@ -25,7 +33,9 @@ Vue.component('fd-container', {
 		'HLine': lineElem
 	},
 	props: {
-		form: Object
+		form: Object,
+		fields: Array,
+		components: Array
 	},
 	data() {
 		return {
@@ -43,7 +53,7 @@ Vue.component('fd-container', {
 	},
 	methods: {
 		clickBody() {
-			this.selectedItem = null;	
+			this.selectedItem = this.form;	
 		},
 		findGridByItem(tf) {
 			function findInContainer(el, tf) {
@@ -51,6 +61,8 @@ Vue.component('fd-container', {
 				for (let i = 0; i < el.Items.length; i++) {
 					let x = el.Items[i];
 					if (x === tf) return el;
+					if (!isContainer(x.Is))
+						continue;
 					let res = findInContainer(x, tf);
 					if (res) return res;	
 				}
@@ -65,15 +77,29 @@ Vue.component('fd-container', {
 			if (!this.selectedItem) return;
 			console.dir(this.selectedItem);
 			console.dir(rc);
+
+			if (!this.selectedItem.row && !this.selectedItem.col) {
+				let no = Object.assign({}, this.selectedItem);
+				no.Items = [];
+				no.row = rc.row;	
+				no.col = rc.col;	
+				rc.grid.Items.push(no);
+				this.selectedItem = no;
+				return;
+			}
+
+			// selectedItem может быть новым элементом	
 			let fg = this.findGridByItem(this.selectedItem);
 			if (fg && fg.Is === 'Grid' && fg !== rc.grid) {
 				let ix = fg.Items.indexOf(this.selectedItem);
 				fg.Items.splice(ix, 1);
 				rc.grid.Items.push(this.selectedItem);
 			}
-			this.selectedItem.Props['Grid.Row'] = rc.row;
-			this.selectedItem.Props['Grid.Col'] = rc.col;
-			
+			this.selectedItem.row = rc.row;
+			this.selectedItem.col = rc.col;			
 		}
+	},
+	mounted() {
+		this.selectedItem = this.form;
 	}
 });

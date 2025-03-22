@@ -1,4 +1,13 @@
 
 
-1. RowSpan/ColSpan
-2. Property Sheet
+3. Подключить платформу
+4. Create DragImage
+5. Delete Item (после платформы, потому как $remove)
+7. GridColumn  - Drag&Drop	
+9. Page/Dialog switch ???
+11. Валидаторы на PropertySheet
+14. Taskpad control
+15. Фигня с click на Body. Если mousedown на другом элементе, то click ВСЕ РАВНО срабатывает.
+16. Toolbar Buttons - Drag&Drop
+18. Toolbar Buttons - css hover, active
+

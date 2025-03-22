@@ -1,9 +1,7 @@
 
+import layoutelem from './layoutelem';
 
 export default {
-	template: '<hr />',
-	props: {
-		item: Object,
-		cont: Object	
-	}
+	template: '<div class="line" @click.stop.prevent=select :class="{selected}"><hr></div>',
+	extends: layoutelem
 };

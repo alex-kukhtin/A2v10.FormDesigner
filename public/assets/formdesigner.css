@@ -7,10 +7,59 @@
   grid-template-columns: 1fr 300px;
   grid-template-rows: 40px 1fr;
 }
+.fd-container .line {
+  padding: 8px 0;
+}
+.fd-container .line hr {
+  border: 0;
+  background-color: lightcoral;
+  height: 2px;
+}
+.fd-container .selected {
+  outline: 1px dotted blue;
+  z-index: 10;
+  box-shadow: 0 0 4px blue;
+  position: relative;
+}
+.fd-container .selected :after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border: 1px solid blue;
+  z-index: 11;
+}
 .fd-container .fd-taskpad {
   grid-column: 2;
   grid-row: 2;
   background-color: antiquewhite;
+  user-select: none;
+}
+.fd-container .fd-taskpad .fd-toolbox {
+  padding: 10px;
+  display: grid;
+  grid-gap: 10px;
+}
+.fd-container .fd-taskpad .fd-toolbox details summary {
+  color: firebrick;
+  font-size: 110%;
+}
+.fd-container .fd-taskpad .fd-toolbox details ul {
+  margin: 10px 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fd-container .fd-taskpad .fd-toolbox details ul li.fd-tbox-item {
+  list-style-type: none;
+  display: inline-flex;
+  padding: 8px;
+  background-color: white;
+  cursor: default;
 }
 .fd-container .fd-toolbar {
   grid-column: 1 / span 2;
@@ -33,37 +82,46 @@
   background-color: blue;
   color: white;
 }
+.fd-container .fd-main {
+  overflow: auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-row: 2;
+  grid-column: 1;
+}
+.fd-container .fd-page-taskpad {
+  grid-column: 2;
+}
 .fd-container .fd-body {
   grid-column: 1;
-  grid-row: 2;
-  background-color: #fafafa;
-  margin: 20px;
+  grid-row: 1;
+  background-color: var(--bgPrimary);
+  padding: 0.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
 }
 .fd-container .fd-elem-grid {
   display: grid;
-  grid-template-columns: 220px 220px;
-  grid-gap: 10px;
+  grid-gap: 0.5rem 1rem;
 }
 .fd-container .fd-elem-grid .fd-grid-ph {
-  border: 1px solid #ccc;
-  background-color: #f8f8f8;
-  width: 100%;
-  min-height: 48px;
+  border: 1px dotted #d0d0d0;
+  background-color: var(--bgPrimary);
+  min-height: 28px;
+  min-width: 20px;
 }
 .fd-container .fd-elem-grid .fd-grid-ph.hover {
-  background-color: #f3f3f3;
+  background-color: #f1f1f1;
   border: 1px solid firebrick;
 }
 .fd-container .fd-elem-grid .fd-grid-item {
-  background-color: beige;
-  width: 100%;
+  background-color: var(--bgPrimary);
   border: 1px solid transparent;
-  min-height: 48px;
+  min-height: 28px;
 }
-.fd-container .fd-elem-grid .fd-grid-item.selected {
-  background-color: antiquewhite;
-  outline: 2px solid blue;
-  outline-offset: 0;
+.fd-container .fd-elem-grid .fd-grid-item > label {
+  line-height: 2em;
 }
 .fd-container .fd-elem-grid .fd-grid-item .form-group {
   display: flex;
@@ -82,4 +140,39 @@
   line-height: 2;
   height: 2em;
   padding: 0 5px;
+}
+.fd-container .fd-elem-grid .fd-grid-item .fd-datagrid {
+  min-height: 80px;
+  width: 100%;
+  height: 120px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-color: red;
+  border-style: solid;
+  border-width: 1px 0 1px 1px;
+}
+.fd-container .fd-elem-grid .fd-grid-item .fd-datagrid .fd-datagrid-column {
+  border-right: 1px solid red;
+  width: 100%;
+}
+.fd-container .fd-elem-grid .fd-grid-item .fd-datagrid .fd-datagrid-column .label {
+  background-color: #f8f8f8;
+  line-height: 2em;
+  padding: 0 10px;
+  border-bottom: 1px solid red;
+}
+.fd-container .fd-elem-grid .fd-grid-item .fd-datagrid .fd-datagrid-column .column {
+  line-height: 2em;
+  padding: 0 10px;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+}
+.fd-container .fd-elem-grid .fd-grid-item .fd-itm-toolbar {
+  height: 100%;
+  display: flex;
+  gap: 5px;
+}
+.fd-container .fd-elem-grid .fd-grid-item .fd-itm-toolbar button {
+  height: 100%;
 }

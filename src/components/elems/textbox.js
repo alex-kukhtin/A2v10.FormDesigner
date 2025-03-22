@@ -3,15 +3,12 @@ import control from './control.js';
 
 const textBoxTemplate = `
 <div class="fd-textbox form-group">
-<label>Form Label</label>
-<span v-text="item.Props.Data" class="input-group"></span>
+<label v-text="item.Label" v-if="item.Label"/>
+<span v-text="item.Data" class="input-group" />
 </div>
 `;
 
 export default {
 	template: textBoxTemplate,
-	extends: control,
-	props: {
-		item: Object	
-	}
+	extends: control
 };

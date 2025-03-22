@@ -1,5 +1,9 @@
 import textBox from './textbox';
 import selector from './selector';
+import datagrid from './datagrid';
+import pager from './pager';
+import toolbar from './toolbar';
+import label from './label';
 
 const gridItem = `
 <div class="fd-grid-item" :draggable="true"
@@ -17,17 +21,27 @@ export default {
 	},
 	components: {
 		'TextBox': textBox,
-		'Selector': selector
+		'Selector': selector,
+		'DataGrid': datagrid,
+		'CLabel': label, 
+		'Pager': pager,
+		'Toolbar': toolbar
 	},
 	computed: {
 		row() {
-			return this.item.Props['Grid.Row'];
+			return this.item.row;
 		},
 		col() {
-			return this.item.Props['Grid.Col'];
+			return this.item.col;
+		},
+		rowSpan() {
+			return this.item.rowSpan || 1;
+		},
+		colSpan() {
+			return this.item.colSpan || 1;
 		},
 		style() {
-			return `grid-area: ${this.row} / ${this.col}`;
+			return `grid-area: ${this.row} / ${this.col} / span ${this.rowSpan} / span ${this.colSpan}`;
 		},
 		selected() {
 			return this.cont.isActive(this.item);

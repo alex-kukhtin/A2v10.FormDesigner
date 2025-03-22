@@ -1,9 +1,10 @@
 
-import gridPlaceholder from './placeholder.js';
-import gridItem from './item.js';
+import gridPlaceholder from './placeholder';
+import gridItem from './item';
+import layoutelem from './layoutelem';
 
 const gridTemplate = `
-<div class="fd-elem-grid" @click=select :style=gridStyle>
+<div class="fd-elem-grid" @click=select :style=gridStyle :class="{selected}">
 	<template v-for="row in rows">
 		<fd-grid-ph v-for="col in cols" :row=row :col="col" ref=ph
 			:key="row + ':' + col" :cont=cont />
@@ -14,6 +15,7 @@ const gridTemplate = `
 
 export default {
 	name: 'grid',
+	extends: layoutelem,
 	template: gridTemplate,
 	components: {
 		'fd-grid-ph': gridPlaceholder,
@@ -25,24 +27,16 @@ export default {
 	},
 	computed: {
 		cols() {
-			return this.item.Props.Columns;
+			return this.item.Columns.split(' ').map((c, ix) => ix + 1);
 		},
 		rows() {
-			return this.item.Props.Rows || 1;
-		},
-		colWidth() {
-			return this.item.Props.ColumnWidth;
+			return this.item.Rows.split(' ').map((r, ix) => ix + 1);
 		},
 		gridStyle() {
 			return {
-				gridTemplateColumns: `repeat(${this.cols}, ${this.colWidth}px)`,
-				gridTemplateRows: `repeat(${this.rows}, auto) 1fr`
+				gridTemplateColumns: this.item.Columns,
+				gridTemplateRows: this.item.Rows
 			}
 		},
-	},
-	methods: {
-		select() {
-			this.cont.select(this.item);
-		}
 	}
 };

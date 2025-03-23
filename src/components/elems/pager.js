@@ -15,6 +15,8 @@ export default {
 		<button>
 			<i class="ico ico-chevron-right" />
 		</button>
+		<div class="a2-pager-divider" />
+		<span class="a2-pager-title">items: <b>1</b>-<b>20</b> of <b>500</b></span>
 	</div>`,
 	props: {
 		item: Object,

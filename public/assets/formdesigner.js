@@ -5,6 +5,7 @@
 
 	const toolboxItemTemplate = `
 <li class="fd-tbox-item" :draggable="true" @dragstart.stop=dragStart>
+	<i class="ico ico-grid" />
 	<span v-text=label />
 </li>
 `;
@@ -63,7 +64,7 @@
 	const propsheetTemplate = `
 <div class="fd-propsheet">
 	{{item.Is}}
-	<table border=1>
+	<table>
 		<tr v-for="(p, ix) in itemProps" :key=ix>
 			<td v-text="p.name" />
 			<td>
@@ -189,7 +190,8 @@
 		},
 		methods: {
 			dragOver(ev) {
-				//console.dir("drag over");
+				if (!this.cont.canDrop('grid'))
+					return;
 				ev.preventDefault();	
 			},
 			dragEnter(ev) {
@@ -258,7 +260,7 @@
 
 	const dataGridColumnTemplate = `
 <div class="fd-datagrid-column" @click.stop.prevent="select" :class="{ selected }"
-	:draggable=true >
+	:draggable=true @dragstart.stop=dragStart>
 	<div v-text="item.Label" class="label" />
 	<div v-text="item.Data" class="column" />
 </div>
@@ -266,11 +268,19 @@
 
 	var dataGridColumn = {
 		template: dataGridColumnTemplate,
-		extends: layoutelem
+		extends: layoutelem,
+		methods: {
+			dragStart(ev) {
+				console.dir('drag start column');
+				this.cont.select(this.item);
+				ev.dataTransfer.effectAllowed = "move";
+				ev.dataTransfer.setData('text/plain', JSON.stringify({ row: this.row, col: this.col }));
+			}
+		}
 	};
 
 	const dataGridTemplate = `
-<div class="fd-datagrid">
+<div class="fd-datagrid" @dragover=dragOver @drop=drop >
 	<DataGridColumn v-for="(c, ix) in item.Items" :item=c :key=ix :cont=cont />
 </div>
 `;
@@ -283,6 +293,14 @@
 		},
 		components: {
 			'DataGridColumn': dataGridColumn
+		},
+		methods: {
+			dragOver(ev) {
+				ev.preventDefault();
+			},
+			drop(ev) {
+				alert('drop data grid');
+			}
 		}
 	};
 
@@ -301,6 +319,8 @@
 		<button>
 			<i class="ico ico-chevron-right" />
 		</button>
+		<div class="a2-pager-divider" />
+		<span class="a2-pager-title">items: <b>1</b>-<b>20</b> of <b>500</b></span>
 	</div>`,
 		props: {
 			item: Object,
@@ -309,24 +329,52 @@
 	};
 
 	const buttonTemplate = `
-<button class="btn btn-tb" @click.stop.prevent="select" :class="{ selected }" :draggable=true >
-	<i class="ico ico-reload" />
+<button class="btn btn-tb" @click.stop.prevent="select" :class="{ selected }" :draggable=true
+		@dragstart.stop=dragStart >
+	<i class="ico" :class=icon />
 	<span v-if="item.Label" v-text="item.Label" />	
 </button>
 `;
 
 	var button = {
 		template: buttonTemplate,
-		extends: layoutelem
+		extends: layoutelem,
+		computed: {
+			icon() {
+				switch (this.item.Command) {
+					case 'Edit': return 'ico-edit';
+					case 'New': return 'ico-add';
+					case 'Delete': return 'ico-clear';
+					case 'Reload': return 'ico-reload';
+				}
+				return 'ico-menu';
+			}
+		},
+		methods: {
+			dragStart(ev) {
+				console.dir('drag start button');
+				this.cont.select(this.item);
+				ev.dataTransfer.effectAllowed = "move";
+				ev.dataTransfer.setData('text/plain', this.item.Is);
+			}
+		}
 	};
 
 	var toolbar = {
-		template: `<div class="toolbar">
+		template: `<div class="toolbar" @dragover=dragOver @drop=drop >
 		<Button v-for="(item, ix) in item.Items" :item="item" :key="ix" :cont=cont />
 	</div>`,
 		extends: control,
 		components: {
 			'Button': button
+		},
+		methods: {
+			dragOver(ev) {
+				ev.preventDefault();
+			},
+			drop(ev) {
+				alert('drop toolbar');
+			}
 		}
 	};
 
@@ -339,6 +387,7 @@
 <div class="fd-grid-item" :draggable="true"
 	@dragstart.stop=dragStart @dragend=dragEnd
 	:style="style" @click.stop.prevent=select :class="{ selected }">
+		<div class="handle" v-if=hasHandle></div>
 		<component :is="item.Is" :item="item" :cont="cont" />
 </div>
 `;
@@ -375,6 +424,9 @@
 			},
 			selected() {
 				return this.cont.isActive(this.item);
+			},
+			hasHandle() {
+				return this.item.Is == 'DataGrid' || this.item.Is === "Toolbar";
 			}
 		},
 		methods: {
@@ -437,11 +489,11 @@
 	};
 
 	const containerTemplate = `
-<div class="fd-container" @click.stop.self=clickBody>
+<div class="fd-container">
 	<fd-toolbar></fd-toolbar>
 	<fd-taskpad :item=selectedItem :fields=fields :cont=cont :components=components />
-	<div class="fd-main">
-		<div class=fd-body  @click.stop.self=clickBody>
+	<div class="fd-main" @click.stop.self=clickBody>
+		<div class=fd-body  @click.stop.self=clickBody :class="bodyClass">
 			<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
 				:item="itm" :cont=cont />
 		</div>
@@ -479,8 +531,12 @@
 				return {
 					select: this.$selectItem,
 					drop: this.$dropItem,
-					isActive: (itm) => itm === this.selectedItem
+					isActive: (itm) => itm === this.selectedItem,
+					canDrop: this.$canDrop
 				}
+			},
+			bodyClass() {
+				return this.form.Is.toLowerCase();
 			}
 		},
 		methods: {
@@ -504,6 +560,14 @@
 			},
 			$selectItem(item) {
 				this.selectedItem = item;
+			},
+			$canDrop(target) {
+				let si = this.selectedItem;
+				if (!si) return false;
+				console.dir(si.Is);
+				if (target === 'grid')
+					return si.Is !== 'Button' && si.Is !== 'DataGridColumn';
+				return true;
 			},
 			$dropItem(rc) {
 				if (!this.selectedItem) return;

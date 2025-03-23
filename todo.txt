@@ -7,7 +7,6 @@
 9. Page/Dialog switch ???
 11. Валидаторы на PropertySheet
 14. Taskpad control
-15. Фигня с click на Body. Если mousedown на другом элементе, то click ВСЕ РАВНО срабатывает.
 16. Toolbar Buttons - Drag&Drop
-18. Toolbar Buttons - css hover, active
-
+21. Dialog - Title & Dialog Buttons
+22. 

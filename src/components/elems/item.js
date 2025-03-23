@@ -9,6 +9,7 @@ const gridItem = `
 <div class="fd-grid-item" :draggable="true"
 	@dragstart.stop=dragStart @dragend=dragEnd
 	:style="style" @click.stop.prevent=select :class="{ selected }">
+		<div class="handle" v-if=hasHandle></div>
 		<component :is="item.Is" :item="item" :cont="cont" />
 </div>
 `;
@@ -45,6 +46,9 @@ export default {
 		},
 		selected() {
 			return this.cont.isActive(this.item);
+		},
+		hasHandle() {
+			return this.item.Is == 'DataGrid' || this.item.Is === "Toolbar";
 		}
 	},
 	methods: {

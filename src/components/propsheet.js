@@ -2,7 +2,7 @@
 const propsheetTemplate = `
 <div class="fd-propsheet">
 	{{item.Is}}
-	<table border=1>
+	<table>
 		<tr v-for="(p, ix) in itemProps" :key=ix>
 			<td v-text="p.name" />
 			<td>

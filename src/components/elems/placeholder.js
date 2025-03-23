@@ -24,7 +24,8 @@ export default {
 	},
 	methods: {
 		dragOver(ev) {
-			//console.dir("drag over");
+			if (!this.cont.canDrop('grid'))
+				return;
 			ev.preventDefault();	
 		},
 		dragEnter(ev) {

@@ -12,16 +12,16 @@
 }
 .fd-container .line hr {
   border: 0;
-  background-color: lightcoral;
+  background-color: #ccc;
   height: 2px;
 }
 .fd-container .selected {
-  outline: 1px dotted blue;
+  outline: 1px dotted blue !important;
   z-index: 10;
-  box-shadow: 0 0 4px blue;
+  box-shadow: 0 0 4px blue !important;
   position: relative;
 }
-.fd-container .selected :after {
+.fd-container .selected:not(.handle):after {
   content: "";
   position: absolute;
   top: -6px;
@@ -35,8 +35,24 @@
 .fd-container .fd-taskpad {
   grid-column: 2;
   grid-row: 2;
-  background-color: antiquewhite;
+  background-color: var(--bgPrimary);
   user-select: none;
+}
+.fd-container .fd-taskpad ul.fd-tabbar {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  background-color: var(--nav100);
+}
+.fd-container .fd-taskpad ul.fd-tabbar li {
+  list-style-type: none;
+  padding: 6px 12px;
+  background-color: var(--neutral300);
+  cursor: pointer;
+}
+.fd-container .fd-taskpad ul.fd-tabbar li.active {
+  background-color: var(--bgPrimary);
 }
 .fd-container .fd-taskpad .fd-toolbox {
   padding: 10px;
@@ -52,7 +68,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 }
 .fd-container .fd-taskpad .fd-toolbox details ul li.fd-tbox-item {
   list-style-type: none;
@@ -60,27 +76,40 @@
   padding: 8px;
   background-color: white;
   cursor: default;
+  gap: 6px;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.fd-container .fd-taskpad .fd-toolbox details ul li.fd-tbox-item .ico {
+  color: #999;
 }
 .fd-container .fd-toolbar {
   grid-column: 1 / span 2;
   grid-row: 1;
   background-color: aquamarine;
 }
-.fd-container ul.fd-tabbar {
-  display: flex;
-  flex-direction: row;
-  margin: 0;
-  padding: 0;
+.fd-container .fd-propsheet {
+  width: 100%;
 }
-.fd-container ul.fd-tabbar li {
-  list-style-type: none;
-  padding: 6px 12px;
-  background-color: lightblue;
-  cursor: pointer;
+.fd-container .fd-propsheet table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 1px solid #ddd;
 }
-.fd-container ul.fd-tabbar li.active {
-  background-color: blue;
-  color: white;
+.fd-container .fd-propsheet table tr {
+  border-bottom: 1px solid #ddd;
+}
+.fd-container .fd-propsheet table tr td input,
+.fd-container .fd-propsheet table tr td select {
+  width: 100%;
+  height: 1.8em;
+}
+.fd-container .fd-propsheet table tr td:first-child {
+  width: 30%;
+  border-right: 1px solid #ddd;
+  border-left: 16px solid #ddd;
+  padding: 0 6px;
 }
 .fd-container .fd-main {
   overflow: auto;
@@ -88,6 +117,8 @@
   grid-template-columns: 1fr auto;
   grid-row: 2;
   grid-column: 1;
+  padding: 1rem;
+  background-color: #aaa;
 }
 .fd-container .fd-page-taskpad {
   grid-column: 2;
@@ -96,10 +127,16 @@
   grid-column: 1;
   grid-row: 1;
   background-color: var(--bgPrimary);
-  padding: 0.5rem 1rem;
   display: flex;
   flex-direction: column;
   overflow: visible;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  margin: auto;
+}
+.fd-container .fd-body.page {
+  width: 100%;
+  height: 100%;
 }
 .fd-container .fd-elem-grid {
   display: grid;
@@ -119,9 +156,20 @@
   background-color: var(--bgPrimary);
   border: 1px solid transparent;
   min-height: 28px;
+  position: relative;
 }
 .fd-container .fd-elem-grid .fd-grid-item > label {
   line-height: 2em;
+}
+.fd-container .fd-elem-grid .fd-grid-item .handle {
+  position: absolute;
+  width: 8px;
+  height: 100%;
+  left: -8px;
+  top: 0;
+  background: radial-gradient(circle at 1px 1px, #ccc 1px, transparent 0);
+  background-size: 4px 4px;
+  z-index: 9;
 }
 .fd-container .fd-elem-grid .fd-grid-item .form-group {
   display: flex;
@@ -148,25 +196,24 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-color: red;
-  border-style: solid;
-  border-width: 1px 0 1px 1px;
+  border: 1px solid var(--neutral300);
+  border-radius: 4px;
+  position: relative;
 }
 .fd-container .fd-elem-grid .fd-grid-item .fd-datagrid .fd-datagrid-column {
-  border-right: 1px solid red;
   width: 100%;
 }
 .fd-container .fd-elem-grid .fd-grid-item .fd-datagrid .fd-datagrid-column .label {
-  background-color: #f8f8f8;
+  background-color: var(--table-header-bg);
   line-height: 2em;
   padding: 0 10px;
-  border-bottom: 1px solid red;
+  border-bottom: 1px solid var(--neutral300);
 }
 .fd-container .fd-elem-grid .fd-grid-item .fd-datagrid .fd-datagrid-column .column {
   line-height: 2em;
   padding: 0 10px;
   background-color: white;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--neutral300);
 }
 .fd-container .fd-elem-grid .fd-grid-item .fd-itm-toolbar {
   height: 100%;
@@ -175,4 +222,12 @@
 }
 .fd-container .fd-elem-grid .fd-grid-item .fd-itm-toolbar button {
   height: 100%;
+}
+.fd-container .fd-elem-grid .fd-grid-item .btn-tb {
+  outline-offset: 0;
+}
+.fd-container .fd-elem-grid .fd-grid-item .btn-tb:hover {
+  box-shadow: none;
+  outline: 0;
+  transition: none;
 }

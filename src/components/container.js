@@ -5,11 +5,11 @@ import gridElem from './elems/grid';
 import lineElem from './elems/line';
 
 const containerTemplate = `
-<div class="fd-container" @click.stop.self=clickBody>
+<div class="fd-container">
 	<fd-toolbar></fd-toolbar>
 	<fd-taskpad :item=selectedItem :fields=fields :cont=cont :components=components />
-	<div class="fd-main">
-		<div class=fd-body  @click.stop.self=clickBody>
+	<div class="fd-main" @click.stop.self=clickBody>
+		<div class=fd-body  @click.stop.self=clickBody :class="bodyClass">
 			<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
 				:item="itm" :cont=cont />
 		</div>
@@ -47,8 +47,12 @@ Vue.component('fd-container', {
 			return {
 				select: this.$selectItem,
 				drop: this.$dropItem,
-				isActive: (itm) => itm === this.selectedItem
+				isActive: (itm) => itm === this.selectedItem,
+				canDrop: this.$canDrop
 			}
+		},
+		bodyClass() {
+			return this.form.Is.toLowerCase();
 		}
 	},
 	methods: {
@@ -72,6 +76,14 @@ Vue.component('fd-container', {
 		},
 		$selectItem(item) {
 			this.selectedItem = item;
+		},
+		$canDrop(target) {
+			let si = this.selectedItem;
+			if (!si) return false;
+			console.dir(si.Is);
+			if (target === 'grid')
+				return si.Is !== 'Button' && si.Is !== 'DataGridColumn';
+			return true;
 		},
 		$dropItem(rc) {
 			if (!this.selectedItem) return;

@@ -5,7 +5,7 @@ import gridElem from './elems/grid';
 import lineElem from './elems/line';
 
 const containerTemplate = `
-<div class="fd-container">
+<div class="fd-container" @keyup=keyUp tabindex=0 >
 	<fd-toolbar></fd-toolbar>
 	<fd-taskpad :item=selectedItem :fields=fields :cont=cont :components=components />
 	<div class="fd-main" @click.stop.self=clickBody>
@@ -58,6 +58,17 @@ Vue.component('fd-container', {
 	methods: {
 		clickBody() {
 			this.selectedItem = this.form;	
+		},
+		keyUp(ev) {
+			console.dir(ev.which);
+			switch (ev.which) {
+				case 46: /* del */ this.deleteItem();
+					break;
+			}
+		},
+		deleteItem() {
+			if (this.selectedItem)
+				alert('delete item');
 		},
 		findGridByItem(tf) {
 			function findInContainer(el, tf) {

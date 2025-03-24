@@ -75,17 +75,18 @@
 </div>
 `;
 
+	// TODO: ������������� ������� Dialog.Label => Dialog.Title?
 	const PROP_MAP = {
 		Grid: ['Rows', 'Columns'],
 		TextBox: ["Data", 'Label', 'row', 'col', 'rowSpan', 'colSpan'],
-		Selector: ["Data", 'Label', 'row', 'col'],
-		DataGrid: ["Source", 'row', 'col'],
+		Selector: ["Data", 'Label', 'row', 'col', 'rowSpan', 'colSpan'],
+		DataGrid: ["Source", 'Height', 'row', 'col'],
 		CLabel: ["Label", 'row', 'col'],
 		DataGridColumn: ["Data", 'Label'],
 		Toolbar: ["row", 'col'],
-		Pager: ["row", 'col'],
-		Dialog: ['Title', 'Width'],
-		Button: ['Label', 'Command'],
+		Pager: ["row", 'col', 'Data'],
+		Dialog: ['Label', 'Width', 'Height'],
+		Button: ['Label', 'Command', "Parameter"],
 	};
 
 	var propsheetElem = {
@@ -104,7 +105,7 @@
 					const r = {
 						name: p,
 						get value() { return item[p]; },
-						set value(v) { item[p] = v; }	
+						set value(v) { Vue.set(item, p, v); }	
 					};
 					return r;
 				})
@@ -218,9 +219,11 @@
 	};
 
 	const textBoxTemplate = `
-<div class="fd-textbox form-group">
-<label v-text="item.Label" v-if="item.Label"/>
-<span v-text="item.Data" class="input-group" />
+<div class="control-group">
+<label v-text="item.Label" v-if="item.Label" />
+	<div class="input-group">
+		<span v-text="item.Data" class="input" >
+	</div>
 </div>
 `;
 
@@ -230,9 +233,14 @@
 	};
 
 	const selectorTemplate = `
-<div class="fd-selector form-group">
+<div class="control-group">
 <label v-text="item.Label" v-if="item.Label"/>
-<span v-text="item.Data" class="input-group" />
+	<div class="input-group">
+		<span v-text="item.Data" class="input" />
+		<a>
+			<i class="ico ico-search" />
+		</a>
+	</div>
 </div>
 `;
 
@@ -241,7 +249,24 @@
 		extends: control
 	};
 
-	var layoutelem = {
+	const datePickerTemplate = `
+<div class="control-group">
+	<label v-text="item.Label" v-if="item.Label"/>
+	<div class="input-group">
+		<span v-text="item.Data" class="input text-center"/>
+		<a>
+			<i class="ico ico-calendar" />
+		</a>
+	</div>
+</div>
+`;
+
+	var datePicker = {
+		template: datePickerTemplate,
+		extends: control
+	};
+
+	var layoutItem = {
 		props: {
 			item: Object,
 			cont: Object	
@@ -268,7 +293,7 @@
 
 	var dataGridColumn = {
 		template: dataGridColumnTemplate,
-		extends: layoutelem,
+		extends: layoutItem,
 		methods: {
 			dragStart(ev) {
 				console.dir('drag start column');
@@ -328,7 +353,7 @@
 		}
 	};
 
-	const buttonTemplate = `
+	const buttonTemplate$1 = `
 <button class="btn btn-tb" @click.stop.prevent="select" :class="{ selected }" :draggable=true
 		@dragstart.stop=dragStart >
 	<i class="ico" :class=icon />
@@ -336,9 +361,9 @@
 </button>
 `;
 
-	var button = {
-		template: buttonTemplate,
-		extends: layoutelem,
+	var button$1 = {
+		template: buttonTemplate$1,
+		extends: layoutItem,
 		computed: {
 			icon() {
 				switch (this.item.Command) {
@@ -360,13 +385,33 @@
 		}
 	};
 
+	const alignerTemplate = `
+<div class="aligner" @click.stop.prevent="select" :class="{ selected }" :draggable=true
+		@dragstart.stop=dragStart >
+</div>
+`;
+
+	var aligner = {
+		template: alignerTemplate,
+		extends: layoutItem,
+		methods: {
+			dragStart(ev) {
+				console.dir('drag start aligner');
+				this.cont.select(this.item);
+				ev.dataTransfer.effectAllowed = "move";
+				ev.dataTransfer.setData('text/plain', this.item.Is);
+			}
+		}
+	};
+
 	var toolbar = {
 		template: `<div class="toolbar" @dragover=dragOver @drop=drop >
-		<Button v-for="(item, ix) in item.Items" :item="item" :key="ix" :cont=cont />
+		<component :is="item.Is" v-for="(item, ix) in item.Items" :item="item" :key="ix" :cont=cont />
 	</div>`,
 		extends: control,
 		components: {
-			'Button': button
+			'Button': button$1,
+			'Aligner': aligner
 		},
 		methods: {
 			dragOver(ev) {
@@ -401,6 +446,7 @@
 		components: {
 			'TextBox': textBox,
 			'Selector': selector,
+			'DatePicker': datePicker,
 			'DataGrid': datagrid,
 			'CLabel': label, 
 			'Pager': pager,
@@ -457,7 +503,7 @@
 
 	var gridElem = {
 		name: 'grid',
-		extends: layoutelem,
+		extends: layoutItem,
 		template: gridTemplate,
 		components: {
 			'fd-grid-ph': gridPlaceholder$1,
@@ -485,17 +531,67 @@
 
 	var lineElem = {
 		template: '<div class="line" @click.stop.prevent=select :class="{selected}"><hr></div>',
-		extends: layoutelem
+		extends: layoutItem
+	};
+
+	const buttonTemplate = `
+<button @click.stop.prevent="select" class="btn a2-inline" :class="{ selected, 'btn-primary': item.Primary }" :draggable=true
+	@dragstart.stop=dragStart v-text="item.Label">
+</button>
+`;
+
+	var button = {
+		template: buttonTemplate,
+		extends: layoutItem,
+		computed: {
+		},
+		methods: {
+			dragStart(ev) {
+				console.dir('drag start button');
+				this.cont.select(this.item);
+				ev.dataTransfer.effectAllowed = "move";
+				ev.dataTransfer.setData('text/plain', this.item.Is);
+			}
+		}
+	};
+
+	var dlgButtons = {
+		template: `<div class="modal-footer" @dragover=dragOver @drop=drop >
+		<component :is="itm.Is" v-for="(itm, ix) in elems"
+			:item="itm" :key="ix" :cont=cont />
+	</div>`,
+		extends: control,
+		props: {
+			elems: Array
+		},
+		components: {
+			'Button': button,
+		},
+		methods: {
+			dragOver(ev) {
+				ev.preventDefault();
+			},
+			drop(ev) {
+				alert('drop toolbar');
+			}
+		}
 	};
 
 	const containerTemplate = `
-<div class="fd-container" @keyup=keyUp tabindex=0 >
+<div class="fd-container" @keyup.self=keyUp tabindex=0 >
 	<fd-toolbar></fd-toolbar>
 	<fd-taskpad :item=selectedItem :fields=fields :cont=cont :components=components />
 	<div class="fd-main" @click.stop.self=clickBody>
-		<div class=fd-body  @click.stop.self=clickBody :class="bodyClass">
-			<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
-				:item="itm" :cont=cont />
+		<div class=fd-body  @click.stop.self=clickBody :class="bodyClass" :style="bodyStyle">
+			<div v-if="isDialog" class="modal-header">
+				<span class="modal-title" v-text="form.Label"/>
+				<button tabindex="-1" class="btnclose">✕</button>
+			</div>
+			<div class="fd-content">
+				<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
+					:item="itm" :cont=cont />
+			</div>
+			<dlg-buttons v-if="isDialog" :elems="form.Buttons" :cont=cont />
 		</div>
 		<div class="fd-page-taskpad">
 		</div>
@@ -514,6 +610,7 @@
 		components: {
 			'fd-toolbar': toolbar$1,
 			'fd-taskpad': taskpad,
+			'dlg-buttons': dlgButtons,
 			'HLine': lineElem
 		},
 		props: {
@@ -537,6 +634,15 @@
 			},
 			bodyClass() {
 				return this.form.Is.toLowerCase();
+			},
+			bodyStyle() {
+				let el = {};
+				if (this.isDialog)
+					el.width = this.form.Width;
+				return el;
+			},
+			isDialog() {
+				return this.form.Is === 'Dialog';
 			}
 		},
 		methods: {
@@ -551,8 +657,13 @@
 				}
 			},
 			deleteItem() {
-				if (this.selectedItem)
-					alert('delete item');
+				if (!this.selectedItem) return;
+				let g = this.findGridByItem(this.selectedItem);
+				if (!g || g.Is !== 'Grid') return;
+				let ix = g.Items.indexOf(this.selectedItem);
+				if (ix < 0) return;
+				g.Items.splice(ix, 1);
+				this.selectedItem = this.form;
 			},
 			findGridByItem(tf) {
 				function findInContainer(el, tf) {
@@ -595,7 +706,7 @@
 					return;
 				}
 
-				// selectedItem ����� ���� ����� ���������	
+				// selectedItem может быть новым элементом	
 				let fg = this.findGridByItem(this.selectedItem);
 				if (fg && fg.Is === 'Grid' && fg !== rc.grid) {
 					let ix = fg.Items.indexOf(this.selectedItem);

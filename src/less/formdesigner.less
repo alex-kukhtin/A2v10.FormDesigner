@@ -171,13 +171,22 @@
 		display: flex;
 		flex-direction: column;
 		overflow: visible;
-		padding: .5rem 1rem;
 		border: 1px solid #ccc;
 		margin: auto;
 
 		&.page {
 			width: 100%;
 			height: 100%;
+			padding: .5rem 1rem;
+		}
+
+		&.dialog {
+			border-radius: 8px;
+			box-shadow: 0 11px 15px -7px rgba(0,0,0,.2),0 24px 38px 3px rgba(0,0,0,.14),0 9px 46px 8px rgba(0,0,0,.12);
+
+			.fd-content {
+				padding: 1rem;
+			}
 		}
 	}
 
@@ -216,6 +225,12 @@
 				background: radial-gradient(circle at 1px 1px, #ccc 1px, transparent 0);
 				background-size: 4px 4px;
 				z-index: 9;
+			}
+
+			.input {
+				width: 100%;
+				padding: 0 5px;
+				height: 2em;
 			}
 
 			.form-group {
@@ -279,6 +294,15 @@
 				}
 			}
 
+			.toolbar {
+				.aligner {
+					height: 33px;
+					background-image: repeating-linear-gradient(45deg,#eee 0,#eee 1px,transparent 0,transparent 50%);
+					background-repeat: repeat;
+					background-size: 8px 8px;
+				}
+			}
+
 			.btn-tb {
 				outline-offset: 0;
 
@@ -289,6 +313,10 @@
 				}
 			}
 		}
+	}
+
+	.btn:focus {
+		outline: none !important;
 	}
 }
 

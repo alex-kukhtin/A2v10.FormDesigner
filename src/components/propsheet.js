@@ -13,17 +13,18 @@ const propsheetTemplate = `
 </div>
 `;
 
+// TODO: переадресация свойств Dialog.Label => Dialog.Title?
 const PROP_MAP = {
 	Grid: ['Rows', 'Columns'],
 	TextBox: ["Data", 'Label', 'row', 'col', 'rowSpan', 'colSpan'],
-	Selector: ["Data", 'Label', 'row', 'col'],
-	DataGrid: ["Source", 'row', 'col'],
+	Selector: ["Data", 'Label', 'row', 'col', 'rowSpan', 'colSpan'],
+	DataGrid: ["Source", 'Height', 'row', 'col'],
 	CLabel: ["Label", 'row', 'col'],
 	DataGridColumn: ["Data", 'Label'],
 	Toolbar: ["row", 'col'],
-	Pager: ["row", 'col'],
-	Dialog: ['Title', 'Width'],
-	Button: ['Label', 'Command'],
+	Pager: ["row", 'col', 'Data'],
+	Dialog: ['Label', 'Width', 'Height'],
+	Button: ['Label', 'Command', "Parameter"],
 };
 
 export default {
@@ -42,7 +43,7 @@ export default {
 				const r = {
 					name: p,
 					get value() { return item[p]; },
-					set value(v) { item[p] = v; }	
+					set value(v) { Vue.set(item, p, v); }	
 				};
 				return r;
 			})

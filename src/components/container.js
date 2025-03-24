@@ -1,17 +1,25 @@
-
+ï»¿
 import taskpad from './taskpad';
 import toolbar from './toolbar';
 import gridElem from './elems/grid';
 import lineElem from './elems/line';
+import dlgButtons from './elems/dlgbuttons';
 
 const containerTemplate = `
-<div class="fd-container" @keyup=keyUp tabindex=0 >
+<div class="fd-container" @keyup.self=keyUp tabindex=0 >
 	<fd-toolbar></fd-toolbar>
 	<fd-taskpad :item=selectedItem :fields=fields :cont=cont :components=components />
 	<div class="fd-main" @click.stop.self=clickBody>
-		<div class=fd-body  @click.stop.self=clickBody :class="bodyClass">
-			<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
-				:item="itm" :cont=cont />
+		<div class=fd-body  @click.stop.self=clickBody :class="bodyClass" :style="bodyStyle">
+			<div v-if="isDialog" class="modal-header">
+				<span class="modal-title" v-text="form.Label"/>
+				<button tabindex="-1" class="btnclose">âœ•</button>
+			</div>
+			<div class="fd-content">
+				<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
+					:item="itm" :cont=cont />
+			</div>
+			<dlg-buttons v-if="isDialog" :elems="form.Buttons" :cont=cont />
 		</div>
 		<div class="fd-page-taskpad">
 		</div>
@@ -30,6 +38,7 @@ Vue.component('fd-container', {
 	components: {
 		'fd-toolbar': toolbar,
 		'fd-taskpad': taskpad,
+		'dlg-buttons': dlgButtons,
 		'HLine': lineElem
 	},
 	props: {
@@ -53,6 +62,15 @@ Vue.component('fd-container', {
 		},
 		bodyClass() {
 			return this.form.Is.toLowerCase();
+		},
+		bodyStyle() {
+			let el = {};
+			if (this.isDialog)
+				el.width = this.form.Width;
+			return el;
+		},
+		isDialog() {
+			return this.form.Is === 'Dialog';
 		}
 	},
 	methods: {
@@ -67,8 +85,13 @@ Vue.component('fd-container', {
 			}
 		},
 		deleteItem() {
-			if (this.selectedItem)
-				alert('delete item');
+			if (!this.selectedItem) return;
+			let g = this.findGridByItem(this.selectedItem);
+			if (!g || g.Is !== 'Grid') return;
+			let ix = g.Items.indexOf(this.selectedItem);
+			if (ix < 0) return;
+			g.Items.splice(ix, 1);
+			this.selectedItem = this.form;
 		},
 		findGridByItem(tf) {
 			function findInContainer(el, tf) {
@@ -111,7 +134,7 @@ Vue.component('fd-container', {
 				return;
 			}
 
-			// selectedItem ìîæåò áûòü íîâûì ýëåìåíòîì	
+			// selectedItem Ð¼Ð¾Ð¶ÐµÑ‚ Ð±Ñ‹Ñ‚ÑŒ Ð½Ð¾Ð²Ñ‹Ð¼ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð¼	
 			let fg = this.findGridByItem(this.selectedItem);
 			if (fg && fg.Is === 'Grid' && fg !== rc.grid) {
 				let ix = fg.Items.indexOf(this.selectedItem);

@@ -2,9 +2,11 @@
 import control from './control.js';
 
 const textBoxTemplate = `
-<div class="fd-textbox form-group">
-<label v-text="item.Label" v-if="item.Label"/>
-<span v-text="item.Data" class="input-group" />
+<div class="control-group">
+<label v-text="item.Label" v-if="item.Label" />
+	<div class="input-group">
+		<span v-text="item.Data" class="input" >
+	</div>
 </div>
 `;
 

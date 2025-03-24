@@ -93,9 +93,9 @@
 	<script>
 		const data = {
 			Form: {
-				Is: 'Page',
-				Title: 'Dialog Title',
-				Width: '80rem',
+				Is: 'Dialog',
+				Label: 'Dialog Title',
+				Width: '60rem',
 				Items: [
 					{
 						Id: 1,
@@ -166,6 +166,7 @@
 								Source: 'Contracts',
 								row: 2,
 								col: 1,
+								Height: '20rem',
 								Items: [
 									{
 										Is: 'DataGridColumn',
@@ -191,6 +192,7 @@
 							},
 							{
 								Is: 'Pager',
+								Data: 'Parent.Pager',
 								row: 3,
 								col: 1
 							},
@@ -210,6 +212,9 @@
 										Command: 'Edit'
 									},
 									{
+										Is: 'Aligner',
+									},
+									{
 										Is: 'Button',
 										Label: '@[Delete]',
 										Command: 'Delete'
@@ -218,6 +223,24 @@
 							}
 						]
 					}
+				],
+				Buttons: [
+					{
+						Is: "Button",
+						Label: "@[Save]",
+						Command: 'Save'
+					},
+					{
+						Is: "Button",
+						Primary: true,
+						Label: "@[SaveAndClose]",
+						Command: 'SaveAndClose'
+					},
+					{
+						Is: "Button",
+						Label: "@[Cancel]",
+						Command: 'Close'
+					},
 				]
 			},
 			Components: [
@@ -237,6 +260,13 @@
 				}
 			],
 			Fields: [
+				{
+					Is: 'DatePicker',
+					row: 0,
+					col: 0,
+					Label: '@[Date]',
+					Data: 'Contract.Date',
+				},
 				{
 					Is: 'TextBox',
 					row: 0,

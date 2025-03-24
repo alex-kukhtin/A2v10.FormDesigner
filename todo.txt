@@ -1,12 +1,9 @@
 
 
-3. Подключить платформу
 4. Create DragImage
-5. Delete Item (после платформы, потому как $remove)
-7. GridColumn  - Drag&Drop	
-9. Page/Dialog switch ???
+7. DataGridColumn  - Drag&Drop	
 11. Валидаторы на PropertySheet
 14. Taskpad control
 16. Toolbar Buttons - Drag&Drop
-21. Dialog - Title & Dialog Buttons
-22. 
+22. TextBox.Multiline
+23. PropertySheet - ControlType

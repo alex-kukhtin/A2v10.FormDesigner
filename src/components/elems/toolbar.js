@@ -1,14 +1,16 @@
 
 import control from "./control";
 import button from "./tbbutton";
+import aligner from "./aligner";
 
 export default {
 	template: `<div class="toolbar" @dragover=dragOver @drop=drop >
-		<Button v-for="(item, ix) in item.Items" :item="item" :key="ix" :cont=cont />
+		<component :is="item.Is" v-for="(item, ix) in item.Items" :item="item" :key="ix" :cont=cont />
 	</div>`,
 	extends: control,
 	components: {
-		'Button': button
+		'Button': button,
+		'Aligner': aligner
 	},
 	methods: {
 		dragOver(ev) {

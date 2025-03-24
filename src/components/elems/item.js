@@ -1,5 +1,6 @@
 import textBox from './textbox';
 import selector from './selector';
+import datePicker from './datepicker';
 import datagrid from './datagrid';
 import pager from './pager';
 import toolbar from './toolbar';
@@ -23,6 +24,7 @@ export default {
 	components: {
 		'TextBox': textBox,
 		'Selector': selector,
+		'DatePicker': datePicker,
 		'DataGrid': datagrid,
 		'CLabel': label, 
 		'Pager': pager,

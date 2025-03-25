@@ -9,8 +9,8 @@ const containerTemplate = `
 <div class="fd-container" @keyup.self=keyUp tabindex=0 >
 	<fd-toolbar></fd-toolbar>
 	<fd-taskpad :item=selectedItem :fields=fields :cont=cont :components=components />
-	<div class="fd-main" @click.stop.self=clickBody>
-		<div class=fd-body  @click.stop.self=clickBody :class="bodyClass" :style="bodyStyle">
+	<div class="fd-main" @click.stop.stop=clickBody>
+		<div class=fd-body  @click.stop.stop=clickBody :class="bodyClass" :style="bodyStyle">
 			<div v-if="isDialog" class="modal-header">
 				<span class="modal-title" v-text="form.Label"/>
 				<button tabindex="-1" class="btnclose">✕</button>

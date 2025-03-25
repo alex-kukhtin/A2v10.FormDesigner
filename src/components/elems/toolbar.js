@@ -1,7 +1,8 @@
 
-import control from "./control";
-import button from "./tbbutton";
-import aligner from "./aligner";
+import control from './control';
+import button from './tbbutton';
+import aligner from './aligner';
+import textBox from './textbox';
 
 export default {
 	template: `<div class="toolbar" @dragover=dragOver @drop=drop >
@@ -10,7 +11,8 @@ export default {
 	extends: control,
 	components: {
 		'Button': button,
-		'Aligner': aligner
+		'Aligner': aligner,
+		'TextBox': textBox
 	},
 	methods: {
 		dragOver(ev) {

@@ -17,6 +17,7 @@ export default {
 			switch (this.item.Command) {
 				case 'Edit': return 'ico-edit';
 				case 'New': return 'ico-add';
+				case 'Create': return 'ico-add';
 				case 'Delete': return 'ico-clear';
 				case 'Reload': return 'ico-reload';
 			}

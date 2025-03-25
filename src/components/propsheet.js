@@ -15,15 +15,17 @@ const propsheetTemplate = `
 
 // TODO: переадресация свойств Dialog.Label => Dialog.Title?
 const PROP_MAP = {
-	Grid: ['Rows', 'Columns'],
-	TextBox: ["Data", 'Label', 'row', 'col', 'rowSpan', 'colSpan'],
-	Selector: ["Data", 'Label', 'row', 'col', 'rowSpan', 'colSpan'],
-	DataGrid: ["Source", 'Height', 'row', 'col'],
+	Grid: ['Rows', 'Columns', "Height"],
+	TextBox: ["Data", 'Label', "Width", 'row', 'col', 'rowSpan', 'colSpan'],
+	DatePicker: ["Data", 'Label', "Width", 'row', 'col', 'rowSpan', 'colSpan'],
+	Selector: ["Data", 'Label', "Width", 'row', 'col', 'rowSpan', 'colSpan'],
+	DataGrid: ["Data", 'Height', 'row', 'col'],
 	CLabel: ["Label", 'row', 'col'],
 	DataGridColumn: ["Data", 'Label'],
 	Toolbar: ["row", 'col'],
 	Pager: ["row", 'col', 'Data'],
-	Dialog: ['Label', 'Width', 'Height'],
+	Dialog: ['Label', 'Width', 'Height', "Data"],
+	Page: ['Label', "Data"],
 	Button: ['Label', 'Command', "Parameter"],
 };
 

@@ -77,15 +77,17 @@
 
 	// TODO: ������������� ������� Dialog.Label => Dialog.Title?
 	const PROP_MAP = {
-		Grid: ['Rows', 'Columns'],
-		TextBox: ["Data", 'Label', 'row', 'col', 'rowSpan', 'colSpan'],
-		Selector: ["Data", 'Label', 'row', 'col', 'rowSpan', 'colSpan'],
-		DataGrid: ["Source", 'Height', 'row', 'col'],
+		Grid: ['Rows', 'Columns', "Height"],
+		TextBox: ["Data", 'Label', "Width", 'row', 'col', 'rowSpan', 'colSpan'],
+		DatePicker: ["Data", 'Label', "Width", 'row', 'col', 'rowSpan', 'colSpan'],
+		Selector: ["Data", 'Label', "Width", 'row', 'col', 'rowSpan', 'colSpan'],
+		DataGrid: ["Data", 'Height', 'row', 'col'],
 		CLabel: ["Label", 'row', 'col'],
 		DataGridColumn: ["Data", 'Label'],
 		Toolbar: ["row", 'col'],
 		Pager: ["row", 'col', 'Data'],
-		Dialog: ['Label', 'Width', 'Height'],
+		Dialog: ['Label', 'Width', 'Height', "Data"],
+		Page: ['Label', "Data"],
 		Button: ['Label', 'Command', "Parameter"],
 	};
 
@@ -153,9 +155,17 @@
 	};
 
 	const toolbarTemplate = `
-<div class="fd-toolbar">
-	TOOLBAR
-	<button>Delete</button>
+<div class="toolbar fd-toolbar">
+	<button class="btn btn-tb btn-icon">
+		<i class="ico ico-save-outline" />
+	</button>
+	<button class="btn btn-tb btn-icon">
+		<i class="ico ico-clear" />
+	</button>
+	<div class="divider" />
+	<button class="btn btn-tb btn-icon">
+		<i class="ico ico-reload" />
+	</button> 
 </div>
 `;
 
@@ -215,14 +225,21 @@
 		props: {
 			item: Object,
 			cont: Object	
+		},
+		computed: {
+			controlStyle() {
+				return {
+					width: this.item.Width || ''
+				};
+			}
 		}
 	};
 
 	const textBoxTemplate = `
-<div class="control-group">
+<div class="control-group" :style=controlStyle >
 <label v-text="item.Label" v-if="item.Label" />
 	<div class="input-group">
-		<span v-text="item.Data" class="input" >
+		<span v-text="item.Data" class="input" />
 	</div>
 </div>
 `;
@@ -233,7 +250,7 @@
 	};
 
 	const selectorTemplate = `
-<div class="control-group">
+<div class="control-group" :style=controlStyle >
 <label v-text="item.Label" v-if="item.Label"/>
 	<div class="input-group">
 		<span v-text="item.Data" class="input" />
@@ -250,7 +267,7 @@
 	};
 
 	const datePickerTemplate = `
-<div class="control-group">
+<div class="control-group" :style=controlStyle >
 	<label v-text="item.Label" v-if="item.Label"/>
 	<div class="input-group">
 		<span v-text="item.Data" class="input text-center"/>
@@ -305,7 +322,7 @@
 	};
 
 	const dataGridTemplate = `
-<div class="fd-datagrid" @dragover=dragOver @drop=drop >
+<div class="fd-datagrid" @dragover=dragOver @drop=drop :style=elemStyle >
 	<DataGridColumn v-for="(c, ix) in item.Items" :item=c :key=ix :cont=cont />
 </div>
 `;
@@ -325,6 +342,13 @@
 			},
 			drop(ev) {
 				alert('drop data grid');
+			}
+		},
+		computed: {
+			elemStyle() {
+				return {
+					height: this.item.Height || ''
+				}
 			}
 		}
 	};
@@ -369,6 +393,7 @@
 				switch (this.item.Command) {
 					case 'Edit': return 'ico-edit';
 					case 'New': return 'ico-add';
+					case 'Create': return 'ico-add';
 					case 'Delete': return 'ico-clear';
 					case 'Reload': return 'ico-reload';
 				}
@@ -411,7 +436,8 @@
 		extends: control,
 		components: {
 			'Button': button$1,
-			'Aligner': aligner
+			'Aligner': aligner,
+			'TextBox': textBox
 		},
 		methods: {
 			dragOver(ev) {
@@ -492,7 +518,7 @@
 	};
 
 	const gridTemplate = `
-<div class="fd-elem-grid" @click=select :style=gridStyle :class="{selected}">
+<div class="fd-elem-grid grid" @click.stop=select :style=gridStyle :class="{selected}">
 	<template v-for="row in rows">
 		<fd-grid-ph v-for="col in cols" :row=row :col="col" ref=ph
 			:key="row + ':' + col" :cont=cont />
@@ -515,15 +541,18 @@
 		},
 		computed: {
 			cols() {
+				if (!this.item.Columns) return 0;
 				return this.item.Columns.split(' ').map((c, ix) => ix + 1);
 			},
 			rows() {
+				if (!this.item.Rows) return 0;
 				return this.item.Rows.split(' ').map((r, ix) => ix + 1);
 			},
 			gridStyle() {
 				return {
-					gridTemplateColumns: this.item.Columns,
-					gridTemplateRows: this.item.Rows
+					gridTemplateColumns: this.item.Columns || '',
+					gridTemplateRows: this.item.Rows || '',
+					height: this.item.Height || ''
 				}
 			},
 		}
@@ -581,8 +610,8 @@
 <div class="fd-container" @keyup.self=keyUp tabindex=0 >
 	<fd-toolbar></fd-toolbar>
 	<fd-taskpad :item=selectedItem :fields=fields :cont=cont :components=components />
-	<div class="fd-main" @click.stop.self=clickBody>
-		<div class=fd-body  @click.stop.self=clickBody :class="bodyClass" :style="bodyStyle">
+	<div class="fd-main" @click.stop.stop=clickBody>
+		<div class=fd-body  @click.stop.stop=clickBody :class="bodyClass" :style="bodyStyle">
 			<div v-if="isDialog" class="modal-header">
 				<span class="modal-title" v-text="form.Label"/>
 				<button tabindex="-1" class="btnclose">✕</button>

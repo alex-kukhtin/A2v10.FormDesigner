@@ -1,8 +1,8 @@
 
 @taskpad-width: 300px;
-@toolbar-heigth: 40px;
 @min-rh: 28px;
 @min-cw: 20px;
+@canvas-bg:#aaa;
 
 @prop-brd-color:#ddd;
 
@@ -15,12 +15,12 @@
 
 .fd-container {
 	box-sizing: border-box;
-	background-color: aliceblue;
 	width: 100%;
 	height: 100%;
 	display: grid;
 	grid-template-columns: 1fr @taskpad-width;
-	grid-template-rows: @toolbar-heigth 1fr;
+	grid-template-rows: auto 1fr;
+	outline: none;
 
 	.line {
 		padding: 8px 0;
@@ -35,20 +35,24 @@
 
 	.selected {
 		outline: 1px dotted @sel-color !important;
+		outline-offset:2px;
 		z-index: 10;
-		box-shadow: 0 0 4px @sel-color !important;
 		position: relative;
+
+		&.btn:hover {
+		}
 
 		&:not(.handle):after {
 			content: "";
 			position: absolute;
-			top: -6px;
-			left: -6px;
-			width: 8px;
-			height: 8px;
-			background-color: white;
-			border: 1px solid @sel-color;
+			top: -2px;
+			left: -2px;
+			right: -3px;
+			bottom: -3px;
+			background-color: rgba(100, 200, 255, .1);
+			pointer-events: none;
 			z-index: 11;
+			box-shadow: 0 0 4px cornflowerblue;
 		}
 	}
 
@@ -119,7 +123,8 @@
 	.fd-toolbar {
 		grid-column: 1 / span 2;
 		grid-row: 1;
-		background-color: aquamarine;
+		border-bottom: 1px solid @canvas-bg;
+		padding: 7px 14px 7px 14px;
 	}
 
 	.fd-propsheet {
@@ -157,7 +162,7 @@
 		grid-row: 2;
 		grid-column: 1;
 		padding: 1rem;
-		background-color: #aaa;
+		background-color: @canvas-bg;
 	}
 
 	.fd-page-taskpad {
@@ -178,14 +183,22 @@
 			width: 100%;
 			height: 100%;
 			padding: .5rem 1rem;
+
+			.fd-content {
+				height: 100%;
+			}
 		}
 
 		&.dialog {
 			border-radius: 8px;
 			box-shadow: 0 11px 15px -7px rgba(0,0,0,.2),0 24px 38px 3px rgba(0,0,0,.14),0 9px 46px 8px rgba(0,0,0,.12);
+			width: 500px;
 
 			.fd-content {
-				padding: 1rem;
+			}
+
+			.modal-header {
+				cursor:default;
 			}
 		}
 	}
@@ -195,20 +208,19 @@
 		grid-gap: .5rem 1rem;
 
 		.fd-grid-ph {
-			border: 1px dotted #d0d0d0;
+			border: 1px dotted #bbb;
 			background-color: @bgPrimary;
 			min-height: @min-rh;
 			min-width: @min-cw;
 
 			&.hover {
-				background-color: #f1f1f1;
+				background-color: #bbb;
 				border: 1px solid firebrick;
 			}
 		}
 
 		.fd-grid-item {
 			background-color: @bgPrimary;
-			border: 1px solid transparent;
 			min-height: @min-rh;
 			position: relative;
 
@@ -262,6 +274,7 @@
 				flex-direction: row;
 				justify-content: space-between;
 				border: 1px solid @datagrid-brd-color;
+				background-color: white;
 				border-radius: 4px;
 				position: relative;
 

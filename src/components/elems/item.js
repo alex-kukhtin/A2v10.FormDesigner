@@ -31,20 +31,33 @@ export default {
 		'Toolbar': toolbar
 	},
 	computed: {
+		grid() {
+			return this.item.Grid || {};
+		},
 		row() {
-			return this.item.row;
+			return this.grid.Row || '';
 		},
 		col() {
-			return this.item.col;
+			return this.grid.Col || '';
 		},
 		rowSpan() {
-			return this.item.rowSpan || 1;
+			return this.grid.RowSpan || '';
 		},
 		colSpan() {
-			return this.item.colSpan || 1;
+			return this.grid.ColSpan || '';
 		},
 		style() {
-			return `grid-area: ${this.row} / ${this.col} / span ${this.rowSpan} / span ${this.colSpan}`;
+			let row = this.row;
+			if (this.rowSpan)
+				row += `/ span ${this.rowSpan}`;
+			let col = this.col;
+			if (this.colSpan)
+				col += `/ span ${this.colSpan}`;
+			return {
+				gridRow: row,
+				gridColumn: col,
+				height: this.item.Height || ''
+			};
 		},
 		selected() {
 			return this.cont.isActive(this.item);

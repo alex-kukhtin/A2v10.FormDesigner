@@ -3,7 +3,7 @@
 export default {
 	props: {
 		item: Object,
-		cont: Object	
+		cont: Object,
 	},
 	computed: {
 		controlStyle() {

@@ -14,7 +14,7 @@ export default {
 	extends: layoutItem,
 	computed: {
 		icon() {
-			switch (this.item.Command) {
+			switch (this.item.Command.Command) {
 				case 'Edit': return 'ico-edit';
 				case 'New': return 'ico-add';
 				case 'Create': return 'ico-add';

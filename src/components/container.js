@@ -4,6 +4,7 @@ import toolbar from './toolbar';
 import gridElem from './elems/grid';
 import lineElem from './elems/line';
 import dlgButtons from './elems/dlgbuttons';
+import frmTaskpad from './elems/taskpad';
 
 const containerTemplate = `
 <div class="fd-container" @keyup.self=keyUp tabindex=0 >
@@ -19,9 +20,8 @@ const containerTemplate = `
 				<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
 					:item="itm" :cont=cont />
 			</div>
+			<component :is="form.Taskpad.Is" :item="form.Taskpad" :cont=cont v-if="form.Taskpad" />
 			<dlg-buttons v-if="isDialog" :elems="form.Buttons" :cont=cont />
-		</div>
-		<div class="fd-page-taskpad">
 		</div>
 	</div>
 </div>
@@ -39,7 +39,8 @@ Vue.component('fd-container', {
 		'fd-toolbar': toolbar,
 		'fd-taskpad': taskpad,
 		'dlg-buttons': dlgButtons,
-		'HLine': lineElem
+		'HLine': lineElem,
+		'Taskpad': frmTaskpad
 	},
 	props: {
 		form: Object,
@@ -70,6 +71,7 @@ Vue.component('fd-container', {
 			return el;
 		},
 		isDialog() {
+			console.dir(this.form);
 			return this.form.Is === 'Dialog';
 		}
 	},

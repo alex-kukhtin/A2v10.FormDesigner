@@ -27,7 +27,6 @@ export default {
 	computed: {
 		elemStyle() {
 			return {
-				height: this.item.Height || ''
 			}
 		}
 	}

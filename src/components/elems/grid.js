@@ -26,18 +26,21 @@ export default {
 		cont: Object
 	},
 	computed: {
+		props() {
+			return this.item.Props || {};
+		},
 		cols() {
-			if (!this.item.Columns) return 0;
-			return this.item.Columns.split(' ').map((c, ix) => ix + 1);
+			if (!this.props.Columns) return 1;
+			return this.props.Columns.split(' ').map((c, ix) => ix + 1);
 		},
 		rows() {
-			if (!this.item.Rows) return 0;
-			return this.item.Rows.split(' ').map((r, ix) => ix + 1);
+			if (!this.props.Rows) return 1;
+			return this.props.Rows.split(' ').map((r, ix) => ix + 1);
 		},
 		gridStyle() {
 			return {
-				gridTemplateColumns: this.item.Columns || '',
-				gridTemplateRows: this.item.Rows || '',
+				gridTemplateColumns: this.props.Columns || 'auto',
+				gridTemplateRows: this.props.Rows || 'auto',
 				height: this.item.Height || ''
 			}
 		},

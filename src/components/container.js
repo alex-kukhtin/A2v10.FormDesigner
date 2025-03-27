@@ -8,8 +8,8 @@ import frmTaskpad from './elems/taskpad';
 
 const containerTemplate = `
 <div class="fd-container" @keyup.self=keyUp tabindex=0 >
-	<fd-toolbar></fd-toolbar>
-	<fd-taskpad :item=selectedItem :fields=fields :cont=cont :components=components />
+	<fd-toolbar :host=host></fd-toolbar>
+	<fd-taskpad :item=selectedItem :fields=fields :cont=cont :components=components :host=host />
 	<div class="fd-main" @click.stop.stop=clickBody>
 		<div class=fd-body  @click.stop.stop=clickBody :class="bodyClass" :style="bodyStyle">
 			<div v-if="isDialog" class="modal-header">
@@ -45,7 +45,8 @@ Vue.component('fd-container', {
 	props: {
 		form: Object,
 		fields: Array,
-		components: Array
+		components: Array,
+		host: Object
 	},
 	data() {
 		return {

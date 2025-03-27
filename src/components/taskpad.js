@@ -9,7 +9,7 @@ const taskpadTemplate = `
 		<li :class="{active: activeTab === 'props'}" @click.stop.prevent="activeTab = 'props'">Properties</li>
 	</ul>
 	<toolbox v-if="activeTab === 'tbox'" :fields=fields :cont=cont :components=components />
-	<propsheet v-if="activeTab === 'props'" :item=item  />
+	<propsheet v-if="activeTab === 'props'" :item=item :host=host />
 </div>
 `;
 
@@ -19,7 +19,8 @@ export default {
 		item: Object,
 		fields: Array,
 		components: Array,
-		cont: Object
+		cont: Object,
+		host: Object
 	},
 	components: {
 		'toolbox': toolboxElem,

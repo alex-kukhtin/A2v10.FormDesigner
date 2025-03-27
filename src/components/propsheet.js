@@ -46,7 +46,7 @@ const PROP_MAP = {
 	Toolbar: [],
 	Pager: ['Data'],
 	Dialog: ['Label', 'Width', 'Height', "Data"],
-	Page: ['Label', "Data"],
+	Page: ['Label', "Data", "UseCollectionView"],
 	Button: ['Label', "Parameter"],
 	GRID_PROPS: ['Row', 'Col', 'RowSpan', 'ColSpan'],
 	COMMAND_PROPS: ['Command', 'Argument', 'Url']
@@ -55,7 +55,8 @@ const PROP_MAP = {
 export default {
 	template: propsheetTemplate,
 	props: {
-		item: Object
+		item: Object,
+		host: Object
 	},
 	computed: {
 		itemProps() {
@@ -75,13 +76,18 @@ export default {
 		}
 	},
 	methods: {
+		setDirty() {
+			if (!this.host) return;
+			this.host.setDirty();
+		},
 		getProps(props, item) {
 			if (!props) return [];
+			let that = this;
 			return props.map(p => {
 				const r = {
 					name: p,
 					get value() { return item[p] || ''; },
-					set value(v) { Vue.set(item, p, v); }
+					set value(v) { Vue.set(item, p, v); that.setDirty() }
 				};
 				return r;
 			});

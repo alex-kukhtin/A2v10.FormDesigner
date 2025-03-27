@@ -1,14 +1,14 @@
 
 const toolbarTemplate = `
 <div class="toolbar fd-toolbar">
-	<button class="btn btn-tb btn-icon">
+	<button class="btn btn-tb btn-icon" @click="clickCmd('save')" :disabled="disabled()">
 		<i class="ico ico-save-outline" />
 	</button>
-	<button class="btn btn-tb btn-icon">
+	<button class="btn btn-tb btn-icon" >
 		<i class="ico ico-clear" />
 	</button>
 	<div class="divider" />
-	<button class="btn btn-tb btn-icon">
+	<button class="btn btn-tb btn-icon" @click="clickCmd('reload')">
 		<i class="ico ico-reload" />
 	</button> 
 </div>
@@ -17,6 +17,16 @@ const toolbarTemplate = `
 export default {
 	template: toolbarTemplate,
 	props: {
-		form: Object	
+		host: Object	
+	},
+	methods: {
+		clickCmd(cmd) {
+			if (!this.host) return;
+			this.host.exec(cmd);
+		},
+		disabled() {
+			if (!this.host) return true;
+			return !this.host.isDirty();
+		}
 	}
 };

@@ -92,7 +92,32 @@
 	<script src='assets/formdesigner.js'></script>
 	<script>
 		const data = {
-			Form2: { "UseCollectionView": true, "Schema": "cat", "Table": "Stores", "Buttons": null, "Taskpad": { "Is": "Taskpad", "Label": null, "Data": null, "DataType": "_", "Items": [{ "Is": "Panel", "Label": "@Filters", "Data": null, "DataType": "_", "Items": [{ "Is": "Grid", "Label": null, "Data": null, "DataType": "_", "Items": [{ "Is": "Selector", "Label": "@Parent", "Data": "Parent.Filter.Parent", "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": { "Rows": null, "Columns": null, "Url": "/catalogs/stores", "Placeholder": "@Stores.All", "ShowClear": true, "Style": "Default", "Filters": null } }], "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }], "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }], "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }, "Toolbar": null, "Is": "Page", "Label": "@Stores", "Data": "Stores", "DataType": "_", "Items": [{ "Is": "Grid", "Label": null, "Data": null, "DataType": "_", "Items": [{ "Is": "Toolbar", "Label": null, "Data": null, "DataType": "_", "Items": [{ "Is": "Button", "Label": "@Create", "Data": null, "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": { "Command": "Create", "Argument": "Parent.ItemsSource", "Url": "/catalogs/stores" }, "Props": null }, { "Is": "Button", "Label": null, "Data": null, "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": { "Command": "EditSelected", "Argument": "Parent.ItemsSource", "Url": "/catalogs/stores" }, "Props": null }, { "Is": "Button", "Label": null, "Data": null, "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": { "Command": "Reload", "Argument": null, "Url": null }, "Props": null }, { "Is": "Aligner", "Label": null, "Data": null, "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }, { "Is": "SearchBox", "Label": null, "Data": "Parent.Filter.Fragment", "DataType": "_", "Items": null, "Width": "20rem", "Height": null, "Grid": null, "Command": null, "Props": null }], "Width": null, "Height": null, "Grid": { "Row": 1, "Col": 1, "RowSpan": 0, "ColSpan": 0 }, "Command": null, "Props": null }, { "Is": "DataGrid", "Label": null, "Data": "Parent.ItemsSource", "DataType": "_", "Items": [{ "Is": "DataGridColumn", "Label": "@Id", "Data": "Id", "DataType": "Id", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }, { "Is": "DataGridColumn", "Label": "@Parent", "Data": "Parent.Name", "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }, { "Is": "DataGridColumn", "Label": "@Name", "Data": "Name", "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }, { "Is": "DataGridColumn", "Label": "@Memo", "Data": "Memo", "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }, { "Is": "DataGridColumn", "Label": "@Owner", "Data": "Owner", "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }], "Width": null, "Height": "100%", "Grid": { "Row": 2, "Col": 1, "RowSpan": 0, "ColSpan": 0 }, "Command": { "Command": "EditSelected", "Argument": "Parent.ItemsSource", "Url": "/catalogs/stores" }, "Props": null }, { "Is": "Pager", "Label": null, "Data": "Parent.Pager", "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": { "Row": 3, "Col": 1, "RowSpan": 0, "ColSpan": 0 }, "Command": null, "Props": null }], "Width": null, "Height": "100%", "Grid": null, "Command": null, "Props": { "Rows": "auto 1fr auto", "Columns": "1fr", "Url": null, "Placeholder": null, "ShowClear": false, "Style": "Default", "Filters": null } }], "Width": null, "Height": null, "Grid": null, "Command": null, "Props": { "Rows": null, "Columns": null, "Url": null, "Placeholder": null, "ShowClear": false, "Style": "Default", "Filters": "Parent" } },
+			Form2: {
+				"UseCollectionView": true, "Schema": "cat",
+				"Table": "Stores", "Buttons": null, "Taskpad": { "Is": "Taskpad", "Label": null, "Data": null, "DataType": "_", "Items": [{ "Is": "Panel", "Label": "@Filters", "Data": null, "DataType": "_", "Items": [{ "Is": "Grid", "Label": null, "Data": null, "DataType": "_", "Items": [{ "Is": "Selector", "Label": "@Parent", "Data": "Parent.Filter.Parent", "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": { "Rows": null, "Columns": null, "Url": "/catalogs/stores", "Placeholder": "@Stores.All", "ShowClear": true, "Style": "Default", "Filters": null } }], "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }], "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }], "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }, "Toolbar": null,
+				"Is": "Page", "Label": "@Stores", "Data": "Stores", "DataType": "_",
+				"Items": [
+					{
+						"Is": "Grid", "Label": null, "Data": null,
+						"DataType": "_", "Items": [{ "Is": "Toolbar", "Label": null, "Data": null, "DataType": "_", "Items": [{ "Is": "Button", "Label": "@Create", "Data": null, "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": { "Command": "Create", "Argument": "Parent.ItemsSource", "Url": "/catalogs/stores" }, "Props": null }, { "Is": "Button", "Label": null, "Data": null, "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": { "Command": "EditSelected", "Argument": "Parent.ItemsSource", "Url": "/catalogs/stores" }, "Props": null }, { "Is": "Button", "Label": null, "Data": null, "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": { "Command": "Reload", "Argument": null, "Url": null }, "Props": null }, { "Is": "Aligner", "Label": null, "Data": null, "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }, { "Is": "SearchBox", "Label": null, "Data": "Parent.Filter.Fragment", "DataType": "_", "Items": null, "Width": "20rem", "Height": null, "Grid": null, "Command": null, "Props": null }], "Width": null, "Height": null, "Grid": { "Row": 1, "Col": 1, "RowSpan": 0, "ColSpan": 0 }, "Command": null, "Props": null }, { "Is": "DataGrid", "Label": null, "Data": "Parent.ItemsSource", "DataType": "_", "Items": [{ "Is": "DataGridColumn", "Label": "@Id", "Data": "Id", "DataType": "Id", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }, { "Is": "DataGridColumn", "Label": "@Parent", "Data": "Parent.Name", "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }, { "Is": "DataGridColumn", "Label": "@Name", "Data": "Name", "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }, { "Is": "DataGridColumn", "Label": "@Memo", "Data": "Memo", "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }, { "Is": "DataGridColumn", "Label": "@Owner", "Data": "Owner", "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": null, "Command": null, "Props": null }], "Width": null, "Height": "100%", "Grid": { "Row": 2, "Col": 1, "RowSpan": 0, "ColSpan": 0 }, "Command": { "Command": "EditSelected", "Argument": "Parent.ItemsSource", "Url": "/catalogs/stores" }, "Props": null }, { "Is": "Pager", "Label": null, "Data": "Parent.Pager", "DataType": "_", "Items": null, "Width": null, "Height": null, "Grid": { "Row": 3, "Col": 1, "RowSpan": 0, "ColSpan": 0 }, "Command": null, "Props": null }], "Width": null,
+						"Height": "60%", "Grid": null,
+						"Command": null,
+						"Props": {
+							"Rows": "auto 1fr auto auto",
+							"Columns": "3fr 1fr", "Url": null, "Placeholder": null, "ShowClear": false, "Style": "Default", "Filters": null
+						}
+					},
+					{
+						Is: "Grid",
+						Items: [],
+						Props: {
+							Rows: "auto auto",
+							Columns: "auto auto"
+						}
+					}
+				],
+				"Width": null, "Height": null, "Grid": null, "Command": null, "Props": { "Rows": null, "Columns": null, "Url": null, "Placeholder": null, "ShowClear": false, "Style": "Default", "Filters": "Parent" }
+			},
 			Form: {
 				Is: 'Dialog',
 				Label: 'Dialog Title',
@@ -249,15 +274,11 @@
 					Is: 'Grid',
 					Rows: 'auto auto',
 					Columns: 'auto auto',
-					row: 0,
-					col: 0,
 					Items: []
 				},
 				{
 					Is: "CLabel",
 					Label: "Label",
-					row: 0,
-					col: 0
 				}
 			],
 			Fields: [
@@ -282,7 +303,8 @@
 					Label: '@[Company]',
 					Data: 'Contract.Company',
 				}
-			]
+			],
+			IsDirty: false
 		};
 
 		new Vue({
@@ -293,6 +315,10 @@
 					return {
 						exec(cmd) {
 							alert('fromHost:' + cmd);
+						},
+						isDirty() { return true; },
+						setDirty() {
+
 						}
 					};
 				}

@@ -16,6 +16,9 @@ const containerTemplate = `
 				<span class="modal-title" v-text="form.Label"/>
 				<button tabindex="-1" class="btnclose">✕</button>
 			</div>
+			<div v-if="isPage" class="fd-tabs-header">
+				<div class="fd-tab-title" v-text="form.Label"/>
+			</div>
 			<div class="fd-content">
 				<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
 					:item="itm" :cont=cont />
@@ -72,13 +75,20 @@ Vue.component('fd-container', {
 			return el;
 		},
 		isDialog() {
-			console.dir(this.form);
 			return this.form.Is === 'Dialog';
+		},
+		isPage() {
+			console.dir(this.form);
+			return this.form.Is === 'Page';
 		}
 	},
 	methods: {
 		clickBody() {
 			this.selectedItem = this.form;	
+		},
+		setDirty() {
+			if (this.host)
+				this.host.setDirty();
 		},
 		keyUp(ev) {
 			console.dir(ev.which);
@@ -124,28 +134,32 @@ Vue.component('fd-container', {
 		},
 		$dropItem(rc) {
 			if (!this.selectedItem) return;
+
 			console.dir(this.selectedItem);
 			console.dir(rc);
 
-			if (!this.selectedItem.row && !this.selectedItem.col) {
+			let sg = this.selectedItem.Grid || {};
+			/*
+			if (!this.selectedItem.Grid.Row && !this.selectedItem.Grid.Col) {
+				// clone element
 				let no = Object.assign({}, this.selectedItem);
 				no.Items = [];
-				no.row = rc.row;	
-				no.col = rc.col;	
+				no.Grid = { Row: rc.row, Col: rc.col };	
 				rc.grid.Items.push(no);
 				this.selectedItem = no;
 				return;
 			}
+			*/
 
-			// selectedItem может быть новым элементом	
 			let fg = this.findGridByItem(this.selectedItem);
+
 			if (fg && fg.Is === 'Grid' && fg !== rc.grid) {
 				let ix = fg.Items.indexOf(this.selectedItem);
 				fg.Items.splice(ix, 1);
 				rc.grid.Items.push(this.selectedItem);
 			}
-			this.selectedItem.row = rc.row;
-			this.selectedItem.col = rc.col;			
+			this.selectedItem.Grid = { Row: rc.row, Col: rc.col, ColSpan: sg.ColSpan, RowSpan: sg.RowSpan };
+			this.setDirty();
 		}
 	},
 	mounted() {

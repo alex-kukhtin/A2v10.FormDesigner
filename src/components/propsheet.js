@@ -6,7 +6,13 @@ const propsheetTemplate = `
 		<tr>
 			<td colspan=2 class="fd-ps-header">General</td>
 		</tr>
-		<tr v-for="(p, ix) in itemProps" :key=ix>
+		<tr v-for="(p, ix) in itemProps" :key="'i:'+ix">
+			<td v-text="p.name" />
+			<td>
+				<input v-model.lazy.trim="p.value" />
+			</td>
+		</tr>
+		<tr v-for="(p, ix) in otherProps" :key="'o:'+ix">
 			<td v-text="p.name" />
 			<td>
 				<input v-model.lazy.trim="p.value" />
@@ -36,9 +42,10 @@ const propsheetTemplate = `
 
 // TODO: переадресация свойств Dialog.Label => Dialog.Title?
 const PROP_MAP = {
-	Grid: ['Rows', 'Columns', "Height"],
+	Grid: ["Height"],
 	TextBox: ["Data", 'Label', "Width"],
 	DatePicker: ["Data", 'Label', "Width"],
+	PeriodPicker: ["Data", 'Label', "Width"],
 	Selector: ["Data", 'Label', "Width"],
 	DataGrid: ["Data", 'Height'],
 	CLabel: ["Label"],
@@ -47,9 +54,12 @@ const PROP_MAP = {
 	Pager: ['Data'],
 	Dialog: ['Label', 'Width', 'Height', "Data"],
 	Page: ['Label', "Data", "UseCollectionView"],
-	Button: ['Label', "Parameter"],
+	Button: ['Label'],
 	GRID_PROPS: ['Row', 'Col', 'RowSpan', 'ColSpan'],
-	COMMAND_PROPS: ['Command', 'Argument', 'Url']
+	COMMAND_PROPS: ['Command', 'Argument', 'Url'],
+	OTHER_PROPS: {
+		Grid: ["Rows", "Columns"]
+	}
 };
 
 export default {
@@ -63,6 +73,11 @@ export default {
 			if (!this.item) return [];
 			const type = this.item.Is;
 			return this.getProps(PROP_MAP[type], this.item);
+		},
+		otherProps() {
+			if (!this.item) return [];
+			const type = this.item.Is;
+			return this.getProps(PROP_MAP.OTHER_PROPS[type], this.item.Props);
 		},
 		gridProps() {
 			let g = this.item.Grid;

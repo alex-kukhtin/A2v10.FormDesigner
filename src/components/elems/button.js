@@ -2,7 +2,7 @@
 import layoutItem from './layoutelem.js';
 
 const buttonTemplate = `
-<button @click.stop.prevent="select" class="btn a2-inline" :class="{ selected, 'btn-primary': item.Primary }" :draggable=true
+<button @click.stop.prevent="select" class="btn a2-inline" :class="btnClass" :draggable=true
 	@dragstart.stop=dragStart v-text="item.Label">
 </button>
 `;
@@ -11,6 +11,12 @@ export default {
 	template: buttonTemplate,
 	extends: layoutItem,
 	computed: {
+		btnClass() {
+			return {
+				selected: this.selected,
+				'btn-primary': this.item.Props?.Style === 'Primary'
+			};
+		}
 	},
 	methods: {
 		dragStart(ev) {

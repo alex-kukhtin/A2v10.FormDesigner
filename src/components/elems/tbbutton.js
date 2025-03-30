@@ -19,6 +19,9 @@ export default {
 				case 'EditSelected':
 					return 'ico-edit';
 				case 'New': return 'ico-add';
+				case 'Save': return 'ico-save-outline';
+				case 'SaveAndClose': return 'ico-save-close-outline';
+				case 'Apply': return 'ico-apply';
 				case 'Create': return 'ico-add';
 				case 'Delete': return 'ico-clear';
 				case 'Reload': return 'ico-reload';

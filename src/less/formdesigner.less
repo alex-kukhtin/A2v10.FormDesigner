@@ -8,6 +8,7 @@
 @prop-brd-color:#eee;
 
 @datagrid-brd-color: var(--neutral300);
+@default-brd-color: var(--neutral300);
 
 
 @sel-color: blue;
@@ -194,7 +195,32 @@
 		&.page {
 			.fd-content {
 				height: 100%;
-				padding:2px;
+				padding: 2px;
+				display: grid;
+				grid-template-rows: auto 1fr;
+				grid-template-columns: 1fr auto;
+
+				.form-toolbar {
+					padding: .5rem;
+					border-bottom: 1px solid @default-brd-color;
+					grid-row: 1;
+				}
+
+				.fd-elem-taskpad {
+					grid-column: 2;
+					grid-row: 1 / span 2;
+					width:22rem;
+					padding:11px 1rem 1rem 1rem;
+					border-left:1px solid @default-brd-color;
+
+					.grid {
+						padding:0;
+					}
+				}
+
+				> .fd-elem-grid {
+					grid-row: 2;
+				}
 			}
 
 			.fd-tabs-header {
@@ -207,6 +233,7 @@
 					padding: 0 16px;
 					background-color: @bgPrimary;
 					border-radius: 4px 4px 0 0;
+					height: @tabs-height;
 				}
 			}
 		}
@@ -228,6 +255,7 @@
 	.fd-elem-grid {
 		display: grid;
 		grid-gap: .5rem 1rem;
+		position:relative;
 
 		.fd-grid-ph {
 			border: 1px dotted #bbb;
@@ -354,6 +382,22 @@
 					transition: none;
 				}
 			}
+		}
+
+		.fd-grid-handle {
+			position:absolute;
+			right:-9px;
+			top:-9px;
+			width:18px;
+			height:18px;
+			background-color:lavenderblush;
+			border:1px solid currentColor;
+			border-radius:3px;
+			line-height:16px;
+			text-align:center;
+			color:firebrick;
+			font-size:11px;
+			z-index:12;
 		}
 	}
 

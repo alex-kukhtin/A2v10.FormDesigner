@@ -5,6 +5,7 @@ import gridElem from './elems/grid';
 import lineElem from './elems/line';
 import dlgButtons from './elems/dlgbuttons';
 import frmTaskpad from './elems/taskpad';
+import itemToolbar from './elems/toolbar';
 
 const containerTemplate = `
 <div class="fd-container" @keyup.self=keyUp tabindex=0 >
@@ -20,10 +21,12 @@ const containerTemplate = `
 				<div class="fd-tab-title" v-text="form.Label"/>
 			</div>
 			<div class="fd-content">
+				<Toolbar v-if="form.Toolbar" :item="form.Toolbar"
+					:cont=cont class="form-toolbar"/>
 				<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
 					:item="itm" :cont=cont />
+				<Taskpad :item="form.Taskpad" :cont=cont v-if="form.Taskpad" />
 			</div>
-			<component :is="form.Taskpad.Is" :item="form.Taskpad" :cont=cont v-if="form.Taskpad" />
 			<dlg-buttons v-if="isDialog" :elems="form.Buttons" :cont=cont />
 		</div>
 	</div>
@@ -43,7 +46,8 @@ Vue.component('fd-container', {
 		'fd-taskpad': taskpad,
 		'dlg-buttons': dlgButtons,
 		'HLine': lineElem,
-		'Taskpad': frmTaskpad
+		'Taskpad': frmTaskpad,
+		'Toolbar': itemToolbar
 	},
 	props: {
 		form: Object,

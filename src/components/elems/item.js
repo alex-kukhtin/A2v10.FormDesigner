@@ -1,10 +1,13 @@
 import textBox from './textbox';
 import selector from './selector';
 import datePicker from './datepicker';
+import periodPicker from './periodpicker';
 import datagrid from './datagrid';
 import pager from './pager';
 import toolbar from './toolbar';
 import label from './label';
+import header from './header';
+import tabs from './tabs';
 
 const gridItem = `
 <div class="fd-grid-item" :draggable="true"
@@ -25,10 +28,13 @@ export default {
 		'TextBox': textBox,
 		'Selector': selector,
 		'DatePicker': datePicker,
+		'PeriodPicker': periodPicker,
 		'DataGrid': datagrid,
-		'CLabel': label, 
+		'Label': label, 
+		'Header': header,
 		'Pager': pager,
-		'Toolbar': toolbar
+		'Toolbar': toolbar,
+		'Tabs': tabs
 	},
 	computed: {
 		grid() {

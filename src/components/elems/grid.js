@@ -1,4 +1,4 @@
-
+﻿
 import gridPlaceholder from './placeholder';
 import gridItem from './item';
 import layoutelem from './layoutelem';
@@ -10,6 +10,8 @@ const gridTemplate = `
 			:key="row + ':' + col" :cont=cont />
 	</template>
 	<fd-grid-item v-for="(itm, ix) in item.Items" :item=itm :key=ix :cont=cont />
+
+	<div class="fd-grid-handle">▷</div>
 </div>
 `;
 

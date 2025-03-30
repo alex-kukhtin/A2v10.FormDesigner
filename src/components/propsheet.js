@@ -48,7 +48,8 @@ const PROP_MAP = {
 	PeriodPicker: ["Data", 'Label', "Width"],
 	Selector: ["Data", 'Label', "Width"],
 	DataGrid: ["Data", 'Height'],
-	CLabel: ["Label"],
+	Label: ["Label"],
+	Panel: ["Label"],
 	DataGridColumn: ["Data", 'Label'],
 	Toolbar: [],
 	Pager: ['Data'],
@@ -77,17 +78,17 @@ export default {
 		otherProps() {
 			if (!this.item) return [];
 			const type = this.item.Is;
-			return this.getProps(PROP_MAP.OTHER_PROPS[type], this.item.Props);
+			return this.getProps(PROP_MAP.OTHER_PROPS[type], this.item.Props || {});
 		},
 		gridProps() {
 			let g = this.item.Grid;
 			if (!g) return [];
-			return this.getProps(PROP_MAP['GRID_PROPS'], this.item.Grid);
+			return this.getProps(PROP_MAP['GRID_PROPS'], this.item.Grid || {});
 		},
 		commandProps() {
 			let g = this.item.Command;
 			if (!g) return [];
-			return this.getProps(PROP_MAP['COMMAND_PROPS'], this.item.Command);
+			return this.getProps(PROP_MAP['COMMAND_PROPS'], this.item.Command || {});
 		}
 	},
 	methods: {

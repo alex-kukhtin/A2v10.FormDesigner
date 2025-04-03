@@ -21,8 +21,9 @@ const containerTemplate = `
 				<div class="fd-tab-title" v-text="form.Label"/>
 			</div>
 			<div class="fd-content">
-				<Toolbar v-if="form.Toolbar" :item="form.Toolbar"
-					:cont=cont class="form-toolbar"/>
+				<div v-if="form.Toolbar" class="form-toolbar">
+					<Toolbar :item="form.Toolbar" :cont=cont class="toolbar"/>
+				</div>
 				<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
 					:item="itm" :cont=cont />
 				<Taskpad :item="form.Taskpad" :cont=cont v-if="form.Taskpad" />

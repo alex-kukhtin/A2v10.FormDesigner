@@ -10,7 +10,7 @@ function is2icon(is) {
 }
 
 const inputControlTemplate = `
-<div class="control-group" :style=controlStyle @click=itemClick>
+<div class="control-group" :style=controlStyle @click=itemClick :class="{ selected }">
 <label v-text="item.Label" v-if="item.Label"/>
 	<div class="input-group">
 		<span v-text="item.Data" class="input" />
@@ -25,7 +25,13 @@ const searchBox = {
 	template: inputControlTemplate,
 	extends: control,
 	computed: {
-		icon() { return is2icon(this.item.Is); }
+		icon() { return is2icon(this.item.Is); },
+		controlStyle() {
+			return undefined;
+		},
+		selected() {
+			return this.cont.isActive(this.item);
+		}
 	},
 	methods: {
 		itemClick(ev) {

@@ -44,7 +44,7 @@
 		&.btn:hover {
 		}
 
-		&:not(.handle):after {
+		&:not(.fd-grid-handle):after {
 			content: "";
 			position: absolute;
 			top: -2px;
@@ -63,6 +63,7 @@
 		grid-row: 2;
 		background-color: @bgPrimary;
 		user-select: none;
+		border-left: 1px solid @canvas-bg;
 
 		ul.fd-tabbar {
 			display: flex;
@@ -204,17 +205,21 @@
 					padding: .5rem;
 					border-bottom: 1px solid @default-brd-color;
 					grid-row: 1;
+
+					.toolbar {
+						position: relative;
+					}
 				}
 
 				.fd-elem-taskpad {
 					grid-column: 2;
 					grid-row: 1 / span 2;
-					width:22rem;
-					padding:11px 1rem 1rem 1rem;
-					border-left:1px solid @default-brd-color;
+					width: 22rem;
+					padding: 11px 1rem 1rem 1rem;
+					border-left: 1px solid @default-brd-color;
 
 					.grid {
-						padding:0;
+						padding: 0;
 					}
 				}
 
@@ -252,10 +257,21 @@
 		}
 	}
 
+	.handle222 {
+		position: absolute;
+		width: 8px;
+		height: 100%;
+		left: -8px;
+		top: 0;
+		background: radial-gradient(circle at 1px 1px, #ccc 1px, transparent 0);
+		background-size: 4px 4px;
+		z-index: 9;
+	}
+
 	.fd-elem-grid {
 		display: grid;
 		grid-gap: .5rem 1rem;
-		position:relative;
+		position: relative;
 
 		.fd-grid-ph {
 			border: 1px dotted #bbb;
@@ -282,17 +298,6 @@
 
 			.input-group {
 				width: 100%;
-			}
-
-			.handle {
-				position: absolute;
-				width: 8px;
-				height: 100%;
-				left: -8px;
-				top: 0;
-				background: radial-gradient(circle at 1px 1px, #ccc 1px, transparent 0);
-				background-size: 4px 4px;
-				z-index: 9;
 			}
 
 			.input {
@@ -343,6 +348,7 @@
 						line-height: 2em;
 						padding: 0 10px;
 						border-bottom: 1px solid @datagrid-brd-color;
+						white-space: nowrap;
 					}
 
 					.column {
@@ -385,19 +391,19 @@
 		}
 
 		.fd-grid-handle {
-			position:absolute;
-			right:-9px;
-			top:-9px;
-			width:18px;
-			height:18px;
-			background-color:lavenderblush;
-			border:1px solid currentColor;
-			border-radius:3px;
-			line-height:16px;
-			text-align:center;
-			color:firebrick;
-			font-size:11px;
-			z-index:12;
+			position: absolute;
+			right: -9px;
+			top: -9px;
+			width: 18px;
+			height: 18px;
+			background-color: lavenderblush;
+			border: 1px solid currentColor;
+			border-radius: 3px;
+			line-height: 16px;
+			text-align: center;
+			color: firebrick;
+			font-size: 11px;
+			z-index: 12;
 		}
 	}
 

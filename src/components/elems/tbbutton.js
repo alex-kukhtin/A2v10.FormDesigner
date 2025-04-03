@@ -9,24 +9,26 @@ const buttonTemplate = `
 </button>
 `;
 
+const cmdMap = {
+	Edit: 'ico-edit',
+	EditSelected: 'ico-edit',
+	New: 'ico-add',
+	Save: 'ico-save-outline',
+	SaveAndClose: 'ico-save-close-outline',
+	Apply: 'ico-apply',
+	UnApply: 'ico-unapply',
+	Create: 'ico-add',
+	Delete: 'ico-clear',
+	Reload: 'ico-reload',
+	Print: 'ico-print'
+}
+
 export default {
 	template: buttonTemplate,
 	extends: layoutItem,
 	computed: {
 		icon() {
-			switch (this.item.Command.Command) {
-				case 'Edit':
-				case 'EditSelected':
-					return 'ico-edit';
-				case 'New': return 'ico-add';
-				case 'Save': return 'ico-save-outline';
-				case 'SaveAndClose': return 'ico-save-close-outline';
-				case 'Apply': return 'ico-apply';
-				case 'Create': return 'ico-add';
-				case 'Delete': return 'ico-clear';
-				case 'Reload': return 'ico-reload';
-			}
-			return 'ico-menu';
+			return cmdMap[this.item.Command.Command] || 'ico-menu';
 		}
 	},
 	methods: {

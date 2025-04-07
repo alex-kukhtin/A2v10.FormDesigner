@@ -3,7 +3,11 @@ import dataGridColumn from './datagridcolumn.js';
 
 const dataGridTemplate = `
 <div class="fd-datagrid" @dragover=dragOver @drop=drop :style=elemStyle >
-	<DataGridColumn v-for="(c, ix) in item.Items" :item=c :key=ix :cont=cont />
+	<table>
+		<tr>
+			<DataGridColumn v-for="(c, ix) in item.Items" :item=c :key=ix :cont=cont />
+		</tr>
+	</table>
 	<div class="fd-grid-handle">▷</div>
 </div>
 `;

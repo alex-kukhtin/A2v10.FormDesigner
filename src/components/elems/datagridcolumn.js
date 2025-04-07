@@ -2,11 +2,11 @@
 import layoutItem from './layoutelem.js';
 
 const dataGridColumnTemplate = `
-<div class="fd-datagrid-column" @click.stop.prevent="select" :class="{ selected }"
+<td class="fd-datagrid-column" @click.stop.prevent="select" :class="{ selected }"
 	:draggable=true @dragstart.stop=dragStart>
 	<div v-text="item.Label" class="label" />
 	<div v-text="item.Data" class="column" />
-</div>
+</td>
 `;
 
 export default {

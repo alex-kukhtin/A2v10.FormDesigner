@@ -4,8 +4,8 @@ const toolbarTemplate = `
 	<button class="btn btn-tb btn-icon" @click="clickCmd('save')" :disabled="disabled()">
 		<i class="ico ico-save-outline" />
 	</button>
-	<button class="btn btn-tb btn-icon" >
-		<i class="ico ico-clear" @click=deleteItem />
+	<button class="btn btn-tb btn-icon" @click=deleteItem >
+		<i class="ico ico-clear" />
 	</button>
 	<div class="divider" />
 	<button class="btn btn-tb btn-icon" @click="clickCmd('reload')">

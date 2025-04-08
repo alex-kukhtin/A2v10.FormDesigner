@@ -22,7 +22,7 @@ const containerTemplate = `
 			</div>
 			<div class="fd-content">
 				<div v-if="form.Toolbar" class="form-toolbar">
-					<Toolbar :item="form.Toolbar" :cont=cont class="toolbar"/>
+					<Toolbar :item="form.Toolbar" :cont=cont class="page-toolbar" :is-page="true"/>
 				</div>
 				<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
 					:item="itm" :cont=cont />
@@ -109,6 +109,7 @@ Vue.component('fd-container', {
 			if (ix < 0) return;
 			g.Items.splice(ix, 1);
 			this.selectedItem = this.form;
+			this.setDirty();
 		},
 		findGridByItem(tf) {
 			function findInContainer(el, tf) {
@@ -151,6 +152,7 @@ Vue.component('fd-container', {
 				no.Grid = { Row: rc.row, Col: rc.col };	
 				rc.grid.Items.push(no);
 				this.selectedItem = no;
+				this.setDirty();
 				return;
 			}
 

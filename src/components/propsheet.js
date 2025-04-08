@@ -42,7 +42,7 @@ const propsheetTemplate = `
 
 // TODO: переадресация свойств Dialog.Label => Dialog.Title?
 const PROP_MAP = {
-	Grid: ["Height"],
+	Grid: ["Height", "CssClass"],
 	TextBox: ["Data", 'Label', "Width"],
 	DatePicker: ["Data", 'Label', "Width"],
 	PeriodPicker: ["Data", 'Label', "Width"],
@@ -51,11 +51,12 @@ const PROP_MAP = {
 	Label: ["Label"],
 	Panel: ["Label"],
 	DataGridColumn: ["Data", 'Label'],
-	Toolbar: [],
+	Toolbar: ["CssClass"],
+	Tabs: ["CssClass"],
 	Pager: ['Data'],
 	Dialog: ['Label', 'Width', 'Height', "Data"],
-	Page: ['Label', "Data", "UseCollectionView"],
-	Button: ['Label'],
+	Page: ['Label', "Data", "CssClass", "UseCollectionView"],
+	Button: ['Label', "CssClass", "If"],
 	GRID_PROPS: ['Row', 'Col', 'RowSpan', 'ColSpan'],
 	COMMAND_PROPS: ['Command', 'Argument', 'Url'],
 	OTHER_PROPS: {

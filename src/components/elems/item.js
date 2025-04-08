@@ -66,7 +66,12 @@ export default {
 				height: this.item.Height || ''
 			};
 		},
+		isSameSelected() {
+			let itmIs = this.item.Is;
+			return itmIs == 'Grid';
+		},
 		selected() {
+			if (this.isSameSelected) return;
 			return this.cont.isActive(this.item);
 		}
 	},

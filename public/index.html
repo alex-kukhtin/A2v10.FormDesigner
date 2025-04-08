@@ -272,34 +272,34 @@
 			Components: [
 				{
 					Is: 'Grid',
-					Rows: 'auto auto',
-					Columns: 'auto auto',
+					Props: {
+						Rows: "auto auto",
+						Columns: "auto auto"
+					},
 					Items: []
 				},
 				{
-					Is: "CLabel",
+					Is: "Label",
 					Label: "Label",
+				},
+				{
+					Is: "CheckBox",
+					Label: "CheckBox",
 				}
 			],
 			Fields: [
 				{
 					Is: 'DatePicker',
-					row: 0,
-					col: 0,
 					Label: '@[Date]',
 					Data: 'Contract.Date',
 				},
 				{
 					Is: 'TextBox',
-					row: 0,
-					col: 0,
 					Label: '@[Memo]',
 					Data: 'Contract.Memo',
 				},
 				{
 					Is: 'Selector',
-					row: 0,
-					col: 0,
 					Label: '@[Company]',
 					Data: 'Contract.Company',
 				}

@@ -8,6 +8,7 @@ import toolbar from './toolbar';
 import label from './label';
 import header from './header';
 import tabs from './tabs';
+import inputControls from './inputcontrol';
 
 const gridItem = `
 <div class="fd-grid-item" :draggable="true"
@@ -29,6 +30,7 @@ export default {
 		'DatePicker': datePicker,
 		'PeriodPicker': periodPicker,
 		'DataGrid': datagrid,
+		'CheckBox': inputControls.checkBox,
 		'Label': label, 
 		'Header': header,
 		'Pager': pager,

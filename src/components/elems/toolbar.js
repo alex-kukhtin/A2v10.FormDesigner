@@ -7,7 +7,7 @@ import textBox from './textbox';
 import inputControls from './inputcontrol'
 
 export default {
-	template: `<div class="toolbar" @dragover=dragOver @drop=drop @click.stop.prevent=select :class="{ selected }">
+	template: `<div class="toolbar" @dragover=dragOver @drop=drop >
 		<component :is="item.Is" v-for="(item, ix) in item.Items" :item="item" :key="ix" :cont=cont />
 		<div class="fd-grid-handle">▷</div>
 	</div>`,

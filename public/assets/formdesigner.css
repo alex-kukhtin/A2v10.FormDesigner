@@ -21,6 +21,9 @@
   z-index: 10;
   position: relative;
 }
+.fd-container .selected .fd-grid-handle {
+  background-color: #F3D5E7 !important;
+}
 .fd-container .selected:not(.fd-grid-handle):after {
   content: "";
   position: absolute;
@@ -28,7 +31,7 @@
   left: -2px;
   right: -3px;
   bottom: -3px;
-  background-color: rgba(100, 200, 255, 0.1);
+  background-color: rgba(140, 218, 242, 0.1);
   pointer-events: none;
   z-index: 11;
   box-shadow: 0 0 4px cornflowerblue;
@@ -235,6 +238,7 @@
   width: 100%;
   padding: 0 5px;
   height: 2em;
+  overflow: hidden;
 }
 .fd-container .fd-elem-grid .fd-grid-item .form-group {
   display: flex;
@@ -319,7 +323,7 @@
   border-radius: 3px;
   line-height: 16px;
   text-align: center;
-  color: firebrick;
+  color: #D8007E;
   font-size: 11px;
   z-index: 12;
 }

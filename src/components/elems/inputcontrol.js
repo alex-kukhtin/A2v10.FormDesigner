@@ -44,6 +44,20 @@ const searchBox = {
 };
 
 
+const checkBoxTemplate = `
+<label class="checkbox" :label="item.Label" :style=controlStyle >
+	<input type="checkbox" xcheck="true" checked />
+	<span v-text=item.Label />
+</label>
+`;
+
+const checkBox = {
+	template: checkBoxTemplate,
+	extends: control
+}
+
+
 export default {
-	searchBox
+	searchBox,
+	checkBox
 };

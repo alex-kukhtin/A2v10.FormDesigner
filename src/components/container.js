@@ -83,7 +83,6 @@ Vue.component('fd-container', {
 			return this.form.Is === 'Dialog';
 		},
 		isPage() {
-			console.dir(this.form);
 			return this.form.Is === 'Page';
 		}
 	},
@@ -143,9 +142,9 @@ Vue.component('fd-container', {
 			console.dir(this.selectedItem);
 			console.dir(rc);
 
-			let sg = this.selectedItem.Grid || {};
-			/*
-			if (!this.selectedItem.Grid.Row && !this.selectedItem.Grid.Col) {
+			let sg = this.selectedItem || {};
+
+			if (!sg.Grid) {
 				// clone element
 				let no = Object.assign({}, this.selectedItem);
 				no.Items = [];
@@ -154,7 +153,6 @@ Vue.component('fd-container', {
 				this.selectedItem = no;
 				return;
 			}
-			*/
 
 			let fg = this.findGridByItem(this.selectedItem);
 

@@ -217,7 +217,7 @@
 		<i class="ico ico-save-outline" />
 	</button>
 	<button class="btn btn-tb btn-icon" >
-		<i class="ico ico-clear" />
+		<i class="ico ico-clear" @click=deleteItem />
 	</button>
 	<div class="divider" />
 	<button class="btn btn-tb btn-icon" @click="clickCmd('reload')">
@@ -235,6 +235,9 @@
 			clickCmd(cmd) {
 				if (!this.host) return;
 				this.host.exec(cmd);
+			},
+			deleteItem() {
+				this.$parent.deleteItem();
 			},
 			disabled() {
 				if (!this.host) return true;
@@ -564,12 +567,26 @@
 	};
 
 
+	const checkBoxTemplate = `
+<label class="checkbox" :label="item.Label" :style=controlStyle >
+	<input type="checkbox" xcheck="true" checked />
+	<span v-text=item.Label />
+</label>
+`;
+
+	const checkBox = {
+		template: checkBoxTemplate,
+		extends: control
+	};
+
+
 	var inputControls = {
-		searchBox
+		searchBox,
+		checkBox
 	};
 
 	var itemToolbar = {
-		template: `<div class="toolbar" @dragover=dragOver @drop=drop @click.stop.prevent=select :class="{ selected }">
+		template: `<div class="toolbar" @dragover=dragOver @drop=drop >
 		<component :is="item.Is" v-for="(item, ix) in item.Items" :item="item" :key="ix" :cont=cont />
 		<div class="fd-grid-handle">▷</div>
 	</div>`,
@@ -637,6 +654,7 @@
 			'DatePicker': datePicker,
 			'PeriodPicker': periodPicker,
 			'DataGrid': datagrid,
+			'CheckBox': inputControls.checkBox,
 			'Label': label, 
 			'Header': header,
 			'Pager': pager,
@@ -907,7 +925,6 @@
 				return this.form.Is === 'Dialog';
 			},
 			isPage() {
-				console.dir(this.form);
 				return this.form.Is === 'Page';
 			}
 		},
@@ -967,9 +984,9 @@
 				console.dir(this.selectedItem);
 				console.dir(rc);
 
-				let sg = this.selectedItem.Grid || {};
-				/*
-				if (!this.selectedItem.Grid.Row && !this.selectedItem.Grid.Col) {
+				let sg = this.selectedItem || {};
+
+				if (!sg.Grid) {
 					// clone element
 					let no = Object.assign({}, this.selectedItem);
 					no.Items = [];
@@ -978,7 +995,6 @@
 					this.selectedItem = no;
 					return;
 				}
-				*/
 
 				let fg = this.findGridByItem(this.selectedItem);
 

@@ -5,7 +5,7 @@ const toolbarTemplate = `
 		<i class="ico ico-save-outline" />
 	</button>
 	<button class="btn btn-tb btn-icon" >
-		<i class="ico ico-clear" />
+		<i class="ico ico-clear" @click=deleteItem />
 	</button>
 	<div class="divider" />
 	<button class="btn btn-tb btn-icon" @click="clickCmd('reload')">
@@ -23,6 +23,9 @@ export default {
 		clickCmd(cmd) {
 			if (!this.host) return;
 			this.host.exec(cmd);
+		},
+		deleteItem() {
+			this.$parent.deleteItem();
 		},
 		disabled() {
 			if (!this.host) return true;

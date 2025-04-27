@@ -1,6 +1,12 @@
 
 import toolboxItem from './toolboxitem';
 
+const defaultControls = [
+	{ Is: 'Grid', Props: {Rows: 'auto auto', Columns: 'auto auto'} },
+	{ Is: 'Button' },
+	{ Is: 'Panel' },
+]
+
 const toolboxTemplate = `
 <div class="fd-toolbox">
 	<details open>
@@ -25,10 +31,12 @@ export default {
 	},
 	props: {
 		fields: Array,
-		components: Array,
 		cont: Object
 	},
 	computed: {
+		components() {
+			return defaultControls;
+		}
 	},
 	methods: {
 

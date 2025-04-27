@@ -7,10 +7,27 @@ import dlgButtons from './elems/dlgbuttons';
 import frmTaskpad from './elems/taskpad';
 import itemToolbar from './elems/toolbar';
 
+function dataType2Is(dt) {
+	switch (dt) {
+		case "reference": return "Selector";
+		case "bit": return "CheckBox";
+		case "date":
+		case "datetime": return "DatePicker";
+	}
+	return "TextBox";
+}
+
+function field2component(f) {
+	return {
+		Data: f.Name,
+		Is: dataType2Is(f.DataType)
+	};
+}
+
 const containerTemplate = `
 <div class="fd-container" @keyup.self=keyUp tabindex=0 >
 	<fd-toolbar :host=host></fd-toolbar>
-	<fd-taskpad :item=selectedItem :fields=fields :cont=cont :components=components :host=host />
+	<fd-taskpad :item=selectedItem :fields=componentFields :cont=cont :components=components :host=host />
 	<div class="fd-main" @click.stop.stop=clickBody>
 		<div class=fd-body  @click.stop.stop=clickBody :class="bodyClass" :style="bodyStyle">
 			<div v-if="isDialog" class="modal-header">
@@ -26,7 +43,7 @@ const containerTemplate = `
 				</div>
 				<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
 					:item="itm" :cont=cont />
-				<Taskpad :item="form.Taskpad" :cont=cont v-if="form.Taskpad" />
+				<Taskpad :item="form.Taskpad" :cont=cont v-if="form.Taskpad"/>
 			</div>
 			<dlg-buttons v-if="isDialog" :elems="form.Buttons" :cont=cont />
 		</div>
@@ -84,6 +101,9 @@ Vue.component('fd-container', {
 		},
 		isPage() {
 			return this.form.Is === 'Page';
+		},
+		componentFields() {
+			return this.fields.map(field2component);
 		}
 	},
 	methods: {
@@ -169,5 +189,6 @@ Vue.component('fd-container', {
 	},
 	mounted() {
 		this.selectedItem = this.form;
+		console.dir(this.fields);
 	}
 });

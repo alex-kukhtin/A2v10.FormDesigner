@@ -20,7 +20,8 @@ const cmdMap = {
 	Create: 'ico-add',
 	Delete: 'ico-clear',
 	Reload: 'ico-reload',
-	Print: 'ico-print'
+	Print: 'ico-print',
+	DeleteSelected: 'ico-clear',
 }
 
 export default {

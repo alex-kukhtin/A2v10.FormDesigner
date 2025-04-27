@@ -1,5 +1,6 @@
 
 import control from './control.js';
+import layoutItem from './layoutelem.js';
 
 
 function is2icon(is) {
@@ -56,8 +57,18 @@ const checkBox = {
 	extends: control
 }
 
+const separatorTemplate = `
+<div role="separator" class="divider" @click.stop.prevent="select" :class="{ selected }" :draggable=true
+		@dragstart.stop=dragStart />
+`;
+
+const separator = {
+	template: separatorTemplate,
+	extends: layoutItem
+}
 
 export default {
 	searchBox,
-	checkBox
+	checkBox,
+	separator
 };

@@ -44,6 +44,7 @@ const propsheetTemplate = `
 const PROP_MAP = {
 	Grid: ["Height", "CssClass"],
 	TextBox: ["Data", 'Label', "Width"],
+	SearchBox: ["Data", 'Label', "Width"],
 	DatePicker: ["Data", 'Label', "Width"],
 	PeriodPicker: ["Data", 'Label', "Width"],
 	Selector: ["Data", 'Label', "Width"],

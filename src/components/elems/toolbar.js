@@ -19,7 +19,8 @@ export default {
 		'Button': button,
 		'Aligner': aligner,
 		'TextBox': textBox,
-		'SearchBox': inputControls.searchBox
+		'SearchBox': inputControls.searchBox,
+		'Separator': inputControls.separator,
 	},
 	methods: {
 		dragOver(ev) {

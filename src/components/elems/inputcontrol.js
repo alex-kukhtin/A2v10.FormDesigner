@@ -6,6 +6,7 @@ import layoutItem from './layoutelem.js';
 function is2icon(is) {
 	switch (is) {
 		case 'SearchBox': return 'ico-search';
+		case 'ComboBox': return 'ico-chevron-down';
 	}
 	return '';
 }
@@ -13,6 +14,18 @@ function is2icon(is) {
 const inputControlTemplate = `
 <div class="control-group" :style=controlStyle @click=itemClick :class="{ selected }">
 <label v-text="item.Label" v-if="item.Label"/>
+	<div class="input-group">
+		<span v-text="item.Data" class="input" />
+		<a v-if="icon">
+			<i class="ico" :class="icon" />
+		</a>
+	</div>
+</div>
+`;
+
+const inputControlSimpleTemplate = `
+<div class="control-group" :style=controlStyle >
+<label v-text="item.Label" v-if="item.Label" />
 	<div class="input-group">
 		<span v-text="item.Data" class="input" />
 		<a v-if="icon">
@@ -67,8 +80,26 @@ const separator = {
 	extends: layoutItem
 }
 
+const comboBox = {
+	template: inputControlSimpleTemplate,
+	extends: control,
+	computed: {
+		icon() { return is2icon(this.item.Is); }
+	}
+};
+
+const staticBox = {
+	template: inputControlSimpleTemplate,
+	extends: control,
+	computed: {
+		icon() { return undefined }
+	}
+};
+
 export default {
 	searchBox,
 	checkBox,
+	comboBox,
+	staticBox,
 	separator
 };

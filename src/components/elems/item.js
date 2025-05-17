@@ -31,6 +31,8 @@ export default {
 		'PeriodPicker': periodPicker,
 		'DataGrid': datagrid,
 		'CheckBox': inputControls.checkBox,
+		'ComboBox': inputControls.comboBox,
+		'Static': inputControls.staticBox,
 		'Label': label, 
 		'Header': header,
 		'Pager': pager,
@@ -63,7 +65,8 @@ export default {
 			return {
 				gridRow: row,
 				gridColumn: col,
-				height: this.item.Height || ''
+				height: this.item.Height || '',
+				width: this.item.Width || ''
 			};
 		},
 		isSameSelected() {

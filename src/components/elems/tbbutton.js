@@ -22,6 +22,7 @@ const cmdMap = {
 	Reload: 'ico-reload',
 	Print: 'ico-print',
 	DeleteSelected: 'ico-clear',
+	Dialog: 'ico-account' // TODO???
 }
 
 export default {

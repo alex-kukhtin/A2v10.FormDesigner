@@ -1,7 +1,7 @@
 
 const toolboxItemTemplate = `
 <li class="fd-tbox-item" :draggable="true" @dragstart.stop=dragStart>
-	<i class="ico ico-grid" />
+	<i class="ico ico-rename" />
 	<span v-text=label />
 </li>
 `;

@@ -18,19 +18,19 @@ const propsheetTemplate = `
 				<input v-model.lazy.trim="p.value" />
 			</td>
 		</tr>
-		<tr v-if="item.Grid">
+		<tr v-if="hasGrid">
 			<td colspan=2 class="fd-ps-header">Grid</td>
 		</tr>
-		<tr v-if="item.Grid" v-for="(p, ix) in gridProps" :key="'g:' + ix">
+		<tr v-if="hasGrid" v-for="(p, ix) in gridProps" :key="'g:' + ix">
 			<td v-text="p.name"/>
 			<td>
 				<input v-model.lazy.trim="p.value" type=number />
 			</td>
 		</tr>
-		<tr v-if="item.Command">
+		<tr v-if="hasCommand">
 			<td colspan=2 class="fd-ps-header">Command</td>
 		</tr>
-		<tr v-if="item.Command" v-for="(p, ix) in commandProps" :key="'c:' + ix">
+		<tr v-if="hasCommand" v-for="(p, ix) in commandProps" :key="'c:' + ix">
 			<td v-text="p.name"/>
 			<td>
 				<input v-model.lazy.trim="p.value" />
@@ -43,25 +43,32 @@ const propsheetTemplate = `
 // TODO: переадресация свойств Dialog.Label => Dialog.Title?
 const PROP_MAP = {
 	Grid: ["Height", "CssClass"],
-	TextBox: ["Data", 'Label', "Width"],
-	SearchBox: ["Data", 'Label', "Width"],
-	DatePicker: ["Data", 'Label', "Width"],
-	PeriodPicker: ["Data", 'Label', "Width"],
-	Selector: ["Data", 'Label', "Width"],
-	DataGrid: ["Data", 'Height'],
-	Label: ["Label"],
+	TextBox: ['Data', 'Label', 'Width'],
+	ComboBox: ['Data', 'Label', 'Width'],
+	SearchBox: ['Data', 'Label', 'Width'],
+	Static: ['Data', 'Label', 'Width'],
+	DatePicker: ['Data', 'Label', 'Width'],
+	PeriodPicker: ['Data', 'Label', 'Width'],
+	Selector: ['Data', 'Label', 'Width'],
+	Header: ['Data', 'Label'],
+	DataGrid: ['Data', 'Height'],
+	Label: ['Label'],
 	Panel: ["Label"],
-	DataGridColumn: ["Data", 'Label'],
-	Toolbar: ["CssClass"],
-	Tabs: ["CssClass"],
+	DataGridColumn: ['Data', 'Label'],
+	Toolbar: ['CssClass'],
+	Tabs: ['CssClass'],
 	Pager: ['Data'],
-	Dialog: ['Label', 'Width', 'Height', "Data"],
-	Page: ['Label', "Data", "CssClass", "UseCollectionView"],
-	Button: ['Label', "CssClass", "If"],
+	Dialog: ['Label', 'Width', 'Height', 'Data'],
+	Page: ['Label', 'Data', "CssClass", "UseCollectionView"],
+	Button: ['Label', 'CssClass', 'If'],
 	GRID_PROPS: ['Row', 'Col', 'RowSpan', 'ColSpan'],
 	COMMAND_PROPS: ['Command', 'Argument', 'Url'],
 	OTHER_PROPS: {
-		Grid: ["Rows", "Columns"]
+		Grid: ['Rows', 'Columns'],
+		TextBox: ['Multiline', 'Placeholder'],
+		DataGridColumn: ['Fit', 'NoWrap', 'LineClamp'],
+		Selector: ['Placeholder', 'ShowClear'],
+		ComboBox: ['ItemsSource'],
 	}
 };
 
@@ -72,6 +79,12 @@ export default {
 		host: Object
 	},
 	computed: {
+		hasGrid() {
+			return this.item.$parent.$parent.Is === 'Grid';
+		},
+		hasCommand() {
+			return this.item.Is === 'Button';
+		},
 		itemProps() {
 			if (!this.item) return [];
 			const type = this.item.Is;

@@ -38,12 +38,12 @@ const containerTemplate = `
 				<div class="fd-tab-title" v-text="form.Label"/>
 			</div>
 			<div class="fd-content">
-				<div v-if="form.Toolbar" class="form-toolbar">
+				<div v-if="hasToolbar" class="form-toolbar">
 					<Toolbar :item="form.Toolbar" :cont=cont class="page-toolbar" :is-page="true"/>
 				</div>
 				<component v-for="(itm, ix) in form.Items" :key="ix" :is="itm.Is"
 					:item="itm" :cont=cont />
-				<Taskpad :item="form.Taskpad" :cont=cont v-if="form.Taskpad"/>
+				<Taskpad :item="form.Taskpad" :cont=cont v-if="hasTaskpad"/>
 			</div>
 			<dlg-buttons v-if="isDialog" :elems="form.Buttons" :cont=cont />
 		</div>
@@ -87,6 +87,12 @@ Vue.component('fd-container', {
 				canDrop: this.$canDrop
 			}
 		},
+		hasTaskpad() {
+			return this.form.Taskpad && this.form.Taskpad.Items.length;
+		},
+		hasToolbar() {
+			return this.form.Toolbar && this.form.Toolbar.Items.length;
+		},
 		bodyClass() {
 			return this.form.Is.toLowerCase();
 		},
@@ -123,28 +129,9 @@ Vue.component('fd-container', {
 		},
 		deleteItem() {
 			if (!this.selectedItem) return;
-			let g = this.findGridByItem(this.selectedItem);
-			if (!g || g.Is !== 'Grid') return;
-			let ix = g.Items.indexOf(this.selectedItem);
-			if (ix < 0) return;
-			g.Items.splice(ix, 1);
+			this.selectedItem.$remove();
 			this.selectedItem = this.form;
 			this.setDirty();
-		},
-		findGridByItem(tf) {
-			function findInContainer(el, tf) {
-				if (!el || !el.Items) return null;
-				for (let i = 0; i < el.Items.length; i++) {
-					let x = el.Items[i];
-					if (x === tf) return el;
-					if (!isContainer(x.Is))
-						continue;
-					let res = findInContainer(x, tf);
-					if (res) return res;	
-				}
-				return null;
-			}
-			return findInContainer(this.form, tf);
 		},
 		$selectItem(item) {
 			this.selectedItem = item;
@@ -176,12 +163,11 @@ Vue.component('fd-container', {
 				return;
 			}
 
-			let fg = this.findGridByItem(this.selectedItem);
+			let fg = this.selectedItem.$parent;
 
 			if (fg && fg.Is === 'Grid' && fg !== rc.grid) {
-				let ix = fg.Items.indexOf(this.selectedItem);
-				fg.Items.splice(ix, 1);
-				rc.grid.Items.push(this.selectedItem);
+				this.selectedItem.$remove();
+				rc.grid.Items.$append(this.selectedItem);
 			}
 			this.selectedItem.Grid = { Row: rc.row, Col: rc.col, ColSpan: sg.ColSpan, RowSpan: sg.RowSpan };
 			this.setDirty();

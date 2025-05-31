@@ -2,6 +2,7 @@
 import taskpad from './taskpad';
 import toolbar from './toolbar';
 import gridElem from './elems/grid';
+import stackPanelElem from './elems/stackpanel';
 import lineElem from './elems/line';
 import dlgButtons from './elems/dlgbuttons';
 import frmTaskpad from './elems/taskpad';
@@ -52,10 +53,11 @@ const containerTemplate = `
 `;
 
 function isContainer(isElem) {
-	return isElem === 'Grid';
+	return isElem === 'Grid' || isElem === 'StackPanel';
 }
 
 Vue.component('Grid', gridElem);
+Vue.component('StackPanel', stackPanelElem);
 
 Vue.component('fd-container', {
 	template: containerTemplate,

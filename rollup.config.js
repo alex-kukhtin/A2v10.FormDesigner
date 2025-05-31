@@ -26,6 +26,8 @@ export default {
 			targets: [
 				{ src: 'public/assets/formdesigner*.css', dest: '../A2v10.Core/Web/A2v10.Core.Web.Site/wwwroot/css/meta' },
 				{ src: 'public/assets/formdesigner*.js', dest: '../A2v10.Core/Web/A2v10.Core.Web.Site/wwwroot/scripts/meta' },
+				{ src: 'public/assets/formdesigner*.css', dest: '../A2v10.Standard.Modules/WebApp/wwwroot/css/meta' },
+				{ src: 'public/assets/formdesigner*.js', dest: '../A2v10.Standard.Modules/WebApp/wwwroot/scripts/meta' }
 			],
 			verbose: true,
 			copySync: true,

@@ -5,6 +5,7 @@ const defaultControls = [
 	{ Is: 'Grid', Props: {Rows: 'auto auto', Columns: 'auto auto'} },
 	{ Is: 'Button' },
 	{ Is: 'Panel' },
+	{ Is: 'StackPanel' },
 ]
 
 const toolboxTemplate = `

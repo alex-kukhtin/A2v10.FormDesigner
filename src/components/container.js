@@ -1,6 +1,5 @@
 ﻿
 import taskpad from './taskpad';
-import toolbar from './toolbar';
 import gridElem from './elems/grid';
 import stackPanelElem from './elems/stackpanel';
 import lineElem from './elems/line';
@@ -21,13 +20,13 @@ function dataType2Is(dt) {
 function field2component(f) {
 	return {
 		Data: f.Name,
+		Label: f.Label || `@${f.Name}`,
 		Is: dataType2Is(f.DataType)
 	};
 }
 
 const containerTemplate = `
 <div class="fd-container" @keyup.self=keyUp tabindex=0 >
-	<fd-toolbar :host=host></fd-toolbar>
 	<fd-taskpad :item=selectedItem :fields=componentFields :cont=cont :components=components :host=host />
 	<div class="fd-main" @click.stop.stop=clickBody>
 		<div class=fd-body  @click.stop.stop=clickBody :class="bodyClass" :style="bodyStyle">
@@ -62,7 +61,6 @@ Vue.component('StackPanel', stackPanelElem);
 Vue.component('fd-container', {
 	template: containerTemplate,
 	components: {
-		'fd-toolbar': toolbar,
 		'fd-taskpad': taskpad,
 		'dlg-buttons': dlgButtons,
 		'HLine': lineElem,
@@ -112,15 +110,20 @@ Vue.component('fd-container', {
 		},
 		componentFields() {
 			return this.fields.map(field2component);
+		},
+		canDeleteItem() {
+			return this.selectedItem && this.selectedItem !== this.form;
+		},
+	},
+	watch: {
+		canDeleteItem(val) {
+			if (this.host)
+				this.host.canDeleteItemChanged(val);
 		}
 	},
 	methods: {
 		clickBody() {
 			this.selectedItem = this.form;	
-		},
-		setDirty() {
-			if (this.host)
-				this.host.setDirty();
 		},
 		keyUp(ev) {
 			console.dir(ev.which);
@@ -131,9 +134,9 @@ Vue.component('fd-container', {
 		},
 		deleteItem() {
 			if (!this.selectedItem) return;
+			if (this.selectedItem === this.form) return;
 			this.selectedItem.$remove();
 			this.selectedItem = this.form;
-			this.setDirty();
 		},
 		$selectItem(item) {
 			this.selectedItem = item;
@@ -141,7 +144,6 @@ Vue.component('fd-container', {
 		$canDrop(target) {
 			let si = this.selectedItem;
 			if (!si) return false;
-			console.dir(si.Is);
 			if (target === 'grid')
 				return si.Is !== 'Button' && si.Is !== 'DataGridColumn';
 			return true;
@@ -149,19 +151,16 @@ Vue.component('fd-container', {
 		$dropItem(rc) {
 			if (!this.selectedItem) return;
 
-			console.dir(this.selectedItem);
-			console.dir(rc);
+			//console.dir(this.selectedItem);
+			//console.dir(rc);
 
 			let sg = this.selectedItem || {};
 
 			if (!sg.Grid) {
 				// clone element
-				let no = Object.assign({}, this.selectedItem);
-				no.Items = [];
+				let no = rc.grid.Items.$append(this.selectedItem);
 				no.Grid = { Row: rc.row, Col: rc.col };	
-				rc.grid.Items.push(no);
 				this.selectedItem = no;
-				this.setDirty();
 				return;
 			}
 
@@ -172,11 +171,10 @@ Vue.component('fd-container', {
 				rc.grid.Items.$append(this.selectedItem);
 			}
 			this.selectedItem.Grid = { Row: rc.row, Col: rc.col, ColSpan: sg.ColSpan, RowSpan: sg.RowSpan };
-			this.setDirty();
 		}
 	},
 	mounted() {
 		this.selectedItem = this.form;
-		console.dir(this.fields);
+		this.host.init(this);
 	}
 });

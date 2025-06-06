@@ -40,9 +40,6 @@ const searchBox = {
 	extends: control,
 	computed: {
 		icon() { return is2icon(this.item.Is); },
-		controlStyle() {
-			return undefined;
-		},
 		selected() {
 			return this.cont.isActive(this.item);
 		}

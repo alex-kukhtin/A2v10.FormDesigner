@@ -1,4 +1,4 @@
-
+ï»¿
 const propsheetTemplate = `
 <div class="fd-propsheet">
 	<div class="fd-item-is" v-text="item.Is" />
@@ -40,12 +40,12 @@ const propsheetTemplate = `
 </div>
 `;
 
-// TODO: ïåðåàäðåñàöèÿ ñâîéñòâ Dialog.Label => Dialog.Title?
+// TODO: Ð¿ÐµÑ€ÐµÐ°Ð´Ñ€ÐµÑÐ°Ñ†Ð¸Ñ ÑÐ²Ð¾Ð¹ÑÑ‚Ð² Dialog.Label => Dialog.Title?
 const PROP_MAP = {
 	Grid: ["Height", "CssClass"],
-	TextBox: ['Data', 'Label', 'Width'],
-	ComboBox: ['Data', 'Label', 'Width'],
-	SearchBox: ['Data', 'Label', 'Width'],
+	TextBox: ['Data', 'Label', 'Width', "CssClass"],
+	ComboBox: ['Data', 'Label', 'Width', "CssClass"],
+	SearchBox: ['Data', 'Label', 'Width', "CssClass"],
 	Static: ['Data', 'Label', 'Width'],
 	DatePicker: ['Data', 'Label', 'Width'],
 	PeriodPicker: ['Data', 'Label', 'Width'],
@@ -67,7 +67,7 @@ const PROP_MAP = {
 		Grid: ['Rows', 'Columns'],
 		TextBox: ['Multiline', 'Placeholder'],
 		DataGridColumn: ['Fit', 'NoWrap', 'LineClamp'],
-		Selector: ['Placeholder', 'ShowClear'],
+		Selector: ['Placeholder', 'ShowClear', 'Url'],
 		ComboBox: ['ItemsSource'],
 	}
 };
@@ -107,10 +107,6 @@ export default {
 		}
 	},
 	methods: {
-		setDirty() {
-			if (!this.host) return;
-			this.host.setDirty();
-		},
 		getProps(props, item) {
 			if (!props) return [];
 			let that = this;
@@ -118,7 +114,7 @@ export default {
 				const r = {
 					name: p,
 					get value() { return item[p] || ''; },
-					set value(v) { Vue.set(item, p, v); that.setDirty() }
+					set value(v) { Vue.set(item, p, v); }
 				};
 				return r;
 			});
